@@ -1,875 +1,2013 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FORGE — Built For Greatness</title>
-    <style>
-        :root {
-            --bg-deep: #06070a;
-            --bg-card: #0c0f16;
-            --bg-elevated: #131823;
-            --border-color: rgba(255, 255, 255, 0.08);
-            --primary: #ff512f;
-            --secondary: #f09819;
-            --accent: #00f2fe;
-            --text-main: #ffffff;
-            --text-muted: #94a3b8;
-            --primary-rgb: 255, 81, 47;
-            --secondary-rgb: 240, 152, 25;
-        }
-
-        /* Theme: Electric Titan (Male) */
-        #theme-male:checked ~ .app-wrapper {
-            --primary: #00f2fe;
-            --secondary: #4facfe;
-            --accent: #38ef7d;
-            --primary-rgb: 0, 242, 254;
-            --secondary-rgb: 79, 172, 254;
-        }
-
-        /* Theme: Crimson Valkyrie (Female) */
-        #theme-female:checked ~ .app-wrapper {
-            --primary: #ff2a85;
-            --secondary: #ff7a59;
-            --accent: #ffd166;
-            --primary-rgb: 255, 42, 133;
-            --secondary-rgb: 255, 122, 89;
-        }
-
-        /* Theme: Apex Nova (Non-Binary / Vibrant) */
-        #theme-nb:checked ~ .app-wrapper {
-            --primary: #a855f7;
-            --secondary: #00f5d4;
-            --accent: #fee440;
-            --primary-rgb: 168, 85, 247;
-            --secondary-rgb: 0, 245, 212;
-        }
-
-        /* Theme: Inferno Forge (Default High-Energy) */
-        #theme-inferno:checked ~ .app-wrapper {
-            --primary: #ff4b1f;
-            --secondary: #ff9068;
-            --accent: #00f2fe;
-            --primary-rgb: 255, 75, 31;
-            --secondary-rgb: 255, 144, 104;
-        }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-        }
-
-        body {
-            background-color: var(--bg-deep);
-            background-image: 
-                radial-gradient(circle at 15% 15%, rgba(255, 75, 31, 0.12) 0%, transparent 45%),
-                radial-gradient(circle at 85% 85%, rgba(0, 242, 254, 0.1) 0%, transparent 45%);
-            color: var(--text-main);
-            min-height: 100vh;
-            padding: 2rem 1rem;
-            display: flex;
-            justify-content: center;
-        }
-
-        input[name="theme"],
-        input[name="discipline"],
-        input[name="goal"] {
-            display: none;
-        }
-
-        .app-wrapper {
-            width: 100%;
-            max-width: 960px;
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: 24px;
-            padding: 2.5rem;
-            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.75), 0 0 40px rgba(var(--primary-rgb), 0.08);
-            position: relative;
-            overflow: hidden;
-            transition: all 0.35s ease;
-        }
-
-        .app-wrapper::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 5px;
-            background: linear-gradient(90deg, var(--primary), var(--secondary), var(--accent));
-        }
-
-        /* Custom Logo & Hero Header */
-        header {
-            text-align: center;
-            margin-bottom: 2.5rem;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .brand-logo-wrap {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.9rem;
-            margin-bottom: 0.65rem;
-        }
-
-        .forge-emblem {
-            width: 54px;
-            height: 54px;
-            filter: drop-shadow(0 0 14px rgba(var(--primary-rgb), 0.55));
-        }
-
-        h1 {
-            font-size: 2.8rem;
-            font-weight: 900;
-            letter-spacing: 5px;
-            background: linear-gradient(135deg, #ffffff 15%, var(--primary) 60%, var(--secondary) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            line-height: 1;
-        }
-
-        .motto-banner {
-            display: inline-block;
-            margin-top: 0.4rem;
-            padding: 0.4rem 1.1rem;
-            border-radius: 999px;
-            background: linear-gradient(90deg, rgba(var(--primary-rgb), 0.16), rgba(var(--secondary-rgb), 0.16));
-            border: 1px solid rgba(var(--primary-rgb), 0.35);
-            font-size: 0.85rem;
-            font-weight: 700;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            color: var(--text-main);
-        }
-
-        .subtitle {
-            color: var(--text-muted);
-            font-size: 0.95rem;
-            margin-top: 0.75rem;
-            max-width: 560px;
-        }
-
-        /* Section Headers with Icons instead of numbers */
-        .section-heading {
-            font-size: 1.05rem;
-            font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: 1.2px;
-            color: var(--text-main);
-            margin: 2.25rem 0 1rem 0;
-            display: flex;
-            align-items: center;
-            gap: 0.65rem;
-            border-bottom: 1px solid var(--border-color);
-            padding-bottom: 0.6rem;
-        }
-
-        .section-badge {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: 28px;
-            height: 28px;
-            border-radius: 8px;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: #06070a;
-            font-weight: 900;
-            font-size: 0.9rem;
-        }
-
-        .grid-2 {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1.25rem;
-        }
-
-        @media(max-width: 640px) {
-            .grid-2 { grid-template-columns: 1fr; }
-            .app-wrapper { padding: 1.5rem; }
-        }
-
-        .input-group {
-            margin-bottom: 1.25rem;
-        }
-
-        label.field-label {
-            display: block;
-            font-size: 0.8rem;
-            font-weight: 700;
-            color: var(--text-muted);
-            margin-bottom: 0.5rem;
-            text-transform: uppercase;
-            letter-spacing: 0.8px;
-        }
-
-        input[type="number"], select {
-            width: 100%;
-            padding: 0.9rem 1rem;
-            background: var(--bg-elevated);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            color: var(--text-main);
-            font-size: 1rem;
-            font-weight: 600;
-            outline: none;
-            transition: all 0.2s;
-        }
-
-        input[type="number"]:focus, select:focus {
-            border-color: var(--primary);
-            box-shadow: 0 0 15px rgba(var(--primary-rgb), 0.25);
-        }
-
-        select option {
-            background: #0c0f16;
-            color: #ffffff;
-        }
-
-        /* Interactive Pill & Goal Cards */
-        .pill-selector {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 0.65rem;
-        }
-
-        .pill-selector label {
-            padding: 0.85rem 0.75rem;
-            text-align: center;
-            background: var(--bg-elevated);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            cursor: pointer;
-            font-size: 0.85rem;
-            font-weight: 700;
-            color: var(--text-muted);
-            transition: all 0.25s ease;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 0.25rem;
-        }
-
-        .pill-selector label span.sub-tag {
-            font-size: 0.72rem;
-            font-weight: 500;
-            opacity: 0.75;
-        }
-
-        .pill-selector label:hover {
-            border-color: rgba(var(--primary-rgb), 0.5);
-            color: var(--text-main);
-            transform: translateY(-2px);
-        }
-
-        input[type="radio"]:checked + label {
-            background: linear-gradient(135deg, rgba(var(--primary-rgb), 0.22), rgba(var(--secondary-rgb), 0.14));
-            border-color: var(--primary);
-            color: #ffffff;
-            box-shadow: 0 6px 20px rgba(var(--primary-rgb), 0.25);
-        }
-
-        input[type="radio"]:checked + label span.sub-tag {
-            color: var(--secondary);
-            opacity: 1;
-        }
-
-        /* Equipment Checkboxes */
-        .checkbox-group {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(175px, 1fr));
-            gap: 0.7rem;
-        }
-
-        .checkbox-card {
-            padding: 0.8rem 1rem;
-            background: var(--bg-elevated);
-            border: 1px solid var(--border-color);
-            border-radius: 10px;
-            cursor: pointer;
-            font-size: 0.85rem;
-            font-weight: 600;
-            color: var(--text-muted);
-            display: flex;
-            align-items: center;
-            gap: 0.6rem;
-            transition: all 0.2s;
-        }
-
-        .checkbox-card:hover {
-            border-color: rgba(var(--primary-rgb), 0.45);
-            color: var(--text-main);
-        }
-
-        .checkbox-card:has(input:checked) {
-            border-color: var(--primary);
-            color: #ffffff;
-            background: linear-gradient(135deg, rgba(var(--primary-rgb), 0.16), rgba(var(--secondary-rgb), 0.08));
-            box-shadow: 0 4px 12px rgba(var(--primary-rgb), 0.15);
-        }
-
-        input[type="checkbox"] {
-            accent-color: var(--primary);
-            width: 16px;
-            height: 16px;
-        }
-
-        /* CTA Button */
-        .btn-generate {
-            width: 100%;
-            padding: 1.15rem;
-            margin-top: 2rem;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            border: none;
-            border-radius: 14px;
-            color: #06070a;
-            font-size: 1.1rem;
-            font-weight: 900;
-            letter-spacing: 1.5px;
-            cursor: pointer;
-            text-transform: uppercase;
-            box-shadow: 0 12px 30px rgba(var(--primary-rgb), 0.4);
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
-
-        .btn-generate:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 16px 38px rgba(var(--primary-rgb), 0.55);
-        }
-
-        /* Output Container */
-        .output-container {
-            margin-top: 2.75rem;
-            border-top: 1px solid var(--border-color);
-            padding-top: 2rem;
-        }
-
-        .motivation-callout {
-            background: linear-gradient(135deg, rgba(var(--primary-rgb), 0.18), rgba(var(--secondary-rgb), 0.12));
-            border-left: 4px solid var(--primary);
-            border-radius: 12px;
-            padding: 1.25rem 1.5rem;
-            margin-bottom: 1.75rem;
-        }
-
-        .motivation-callout h3 {
-            font-size: 1rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: var(--secondary);
-            margin-bottom: 0.35rem;
-        }
-
-        .motivation-callout p {
-            font-size: 0.95rem;
-            color: #e2e8f0;
-            line-height: 1.5;
-        }
-
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-            gap: 1rem;
-            margin-bottom: 2rem;
-        }
-
-        .stat-card {
-            background: var(--bg-elevated);
-            border: 1px solid var(--border-color);
-            border-radius: 14px;
-            padding: 1.25rem;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .stat-card::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 20%;
-            right: 20%;
-            height: 2px;
-            background: linear-gradient(90deg, transparent, var(--primary), transparent);
-        }
-
-        .stat-card h4 {
-            font-size: 0.75rem;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 0.8px;
-            margin-bottom: 0.45rem;
-        }
-
-        .stat-card .value {
-            font-size: 1.45rem;
-            font-weight: 900;
-            background: linear-gradient(135deg, #ffffff, var(--primary));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        /* Detailed Muscular Human Anatomy Visualizer */
-        .anatomy-panel {
-            background: radial-gradient(circle at center, #141a26 0%, #090c12 100%);
-            border: 1px solid rgba(var(--primary-rgb), 0.25);
-            border-radius: 18px;
-            padding: 1.75rem;
-            margin-bottom: 2rem;
-            display: grid;
-            grid-template-columns: 1fr 1.2fr;
-            gap: 1.5rem;
-            align-items: center;
-        }
-
-        @media(max-width: 700px) {
-            .anatomy-panel { grid-template-columns: 1fr; text-align: center; }
-        }
-
-        .anatomy-figure-box {
-            display: flex;
-            justify-content: center;
-            gap: 1.25rem;
-            background: rgba(0, 0, 0, 0.35);
-            padding: 1.25rem;
-            border-radius: 14px;
-            border: 1px solid var(--border-color);
-        }
-
-        .anatomy-svg {
-            width: 145px;
-            height: 290px;
-            overflow: visible;
-        }
-
-        .muscle-base {
-            fill: #1e2636;
-            stroke: #334155;
-            stroke-width: 1;
-            transition: all 0.3s;
-        }
-
-        .muscle-primary {
-            fill: var(--primary);
-            stroke: #ffffff;
-            stroke-width: 0.8;
-            filter: drop-shadow(0 0 8px rgba(var(--primary-rgb), 0.85));
-        }
-
-        .muscle-secondary {
-            fill: var(--secondary);
-            stroke: rgba(255,255,255,0.4);
-            stroke-width: 0.6;
-            filter: drop-shadow(0 0 5px rgba(var(--secondary-rgb), 0.6));
-        }
-
-        .muscle-striation {
-            fill: none;
-            stroke: rgba(0, 0, 0, 0.45);
-            stroke-width: 0.9;
-            stroke-linecap: round;
-        }
-
-        .anatomy-legend h3 {
-            font-size: 1.2rem;
-            font-weight: 800;
-            margin-bottom: 0.5rem;
-            color: #ffffff;
-        }
-
-        .anatomy-legend p {
-            font-size: 0.9rem;
-            color: var(--text-muted);
-            line-height: 1.55;
-            margin-bottom: 1rem;
-        }
-
-        .legend-tags {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.6rem;
-        }
-
-        @media(max-width: 700px) {
-            .legend-tags { justify-content: center; }
-        }
-
-        .legend-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.45rem;
-            padding: 0.4rem 0.85rem;
-            border-radius: 999px;
-            font-size: 0.8rem;
-            font-weight: 700;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid var(--border-color);
-        }
-
-        .dot-primary {
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            background: var(--primary);
-            box-shadow: 0 0 8px var(--primary);
-        }
-
-        .dot-secondary {
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            background: var(--secondary);
-            box-shadow: 0 0 8px var(--secondary);
-        }
-
-        /* Routine Cards */
-        .routine-card {
-            background: var(--bg-elevated);
-            border: 1px solid var(--border-color);
-            border-radius: 14px;
-            padding: 1.5rem;
-            margin-bottom: 1rem;
-            transition: transform 0.2s, border-color 0.2s;
-        }
-
-        .routine-card:hover {
-            transform: translateX(4px);
-            border-color: rgba(var(--primary-rgb), 0.45);
-        }
-
-        .routine-card h3 {
-            font-size: 1.15rem;
-            color: var(--text-main);
-            margin-bottom: 0.6rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-        }
-
-        .routine-card h3 span {
-            font-size: 0.78rem;
-            font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: 0.6px;
-            color: #06070a;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            padding: 0.28rem 0.75rem;
-            border-radius: 20px;
-        }
-
-        .routine-details {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 1.5rem;
-            font-size: 0.88rem;
-            color: var(--text-muted);
-            margin-bottom: 0.85rem;
-        }
-
-        .routine-details strong {
-            color: #ffffff;
-        }
-
-        .cue {
-            font-size: 0.9rem;
-            color: #cbd5e1;
-            border-left: 3px solid var(--primary);
-            padding-left: 0.85rem;
-            line-height: 1.45;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FORGE</title>
+  <style>
+    :root {
+      --ink-black: #07080B;
+      --ink-elevated: #0E1016;
+      --stone-dark: #161922;
+      --stone-grey: #252A37;
+      --stone-muted: #8C95A6;
+      --cobalt: #1E6BFF;
+      --cobalt-bright: #4D8EFF;
+      --cobalt-glow: rgba(30, 107, 255, 0.45);
+      --cobalt-tint: rgba(30, 107, 255, 0.14);
+      --white: #F8FAFC;
+      --emerald: #10B981;
+      --amber: #F59E0B;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    body {
+      background-color: var(--ink-black);
+      background-image:
+        radial-gradient(circle at 18% 8%, rgba(30, 107, 255, 0.16) 0%, transparent 38%),
+        radial-gradient(circle at 85% 90%, rgba(30, 107, 255, 0.12) 0%, transparent 42%);
+      color: var(--white);
+      min-height: 100vh;
+      display: flex;
+    }
+
+    /* SIDEBAR NAVIGATION MENU */
+    .sidebar {
+      width: 250px;
+      background: var(--ink-elevated);
+      border-right: 1px solid var(--stone-grey);
+      padding: 1.75rem 1.15rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      flex-shrink: 0;
+    }
+
+    .logo-lockup {
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+      padding: 0 0.5rem 1.75rem;
+      border-bottom: 1px solid var(--stone-grey);
+    }
+
+    .forge-crest {
+      width: 44px;
+      height: 44px;
+      filter: drop-shadow(0 0 14px var(--cobalt-glow));
+      flex-shrink: 0;
+    }
+
+    .wordmark {
+      font-size: 1.75rem;
+      font-weight: 900;
+      letter-spacing: 5px;
+      color: var(--white);
+      line-height: 1;
+    }
+
+    .wordmark span {
+      color: var(--cobalt);
+    }
+
+    .nav-menu {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      margin-top: 1.5rem;
+    }
+
+    .nav-btn {
+      width: 100%;
+      padding: 0.9rem 1rem;
+      border-radius: 12px;
+      border: 1px solid transparent;
+      background: transparent;
+      color: var(--stone-muted);
+      font-size: 0.88rem;
+      font-weight: 700;
+      letter-spacing: 0.4px;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      cursor: pointer;
+      text-align: left;
+      transition: all 0.2s ease;
+    }
+
+    .nav-btn svg {
+      width: 18px;
+      height: 18px;
+      stroke: currentColor;
+      flex-shrink: 0;
+    }
+
+    .nav-btn:hover {
+      background: var(--stone-dark);
+      color: var(--white);
+    }
+
+    .nav-btn.active {
+      background: var(--cobalt-tint);
+      border-color: var(--cobalt);
+      color: var(--white);
+      box-shadow: 0 0 20px rgba(30, 107, 255, 0.22);
+    }
+
+    .nav-btn.active svg {
+      stroke: var(--cobalt-bright);
+    }
+
+    .sidebar-footer {
+      padding: 1rem;
+      border-radius: 14px;
+      background: var(--stone-dark);
+      border: 1px solid var(--stone-grey);
+    }
+
+    .sidebar-footer p {
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--white);
+      margin-bottom: 0.3rem;
+    }
+
+    .sidebar-footer span {
+      font-size: 0.72rem;
+      color: var(--stone-muted);
+      display: block;
+      line-height: 1.4;
+    }
+
+    /* MAIN VIEWPORT */
+    .main-stage {
+      flex: 1;
+      padding: 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    /* MOBILE TOP BAR */
+    .mobile-bar {
+      display: none;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem 1.25rem;
+      background: var(--ink-elevated);
+      border-bottom: 1px solid var(--stone-grey);
+      position: sticky;
+      top: 0;
+      z-index: 40;
+    }
+
+    .mobile-tabs {
+      display: none;
+      gap: 0.4rem;
+      overflow-x: auto;
+      padding: 0.75rem 1rem;
+      background: var(--ink-elevated);
+      border-bottom: 1px solid var(--stone-grey);
+    }
+
+    @media (max-width: 880px) {
+      body { flex-direction: column; }
+      .sidebar { display: none; }
+      .mobile-bar { display: flex; }
+      .mobile-tabs { display: flex; }
+      .main-stage { padding: 1.25rem; }
+    }
+
+    /* TAB VIEWS */
+    .tab-view {
+      display: none;
+      animation: fadeSlide 0.25s ease;
+    }
+
+    .tab-view.active {
+      display: block;
+    }
+
+    @keyframes fadeSlide {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* HERO MOTIVATION STRIP */
+    .drive-banner {
+      background: linear-gradient(135deg, var(--ink-elevated) 0%, var(--stone-dark) 100%);
+      border: 1px solid var(--stone-grey);
+      border-left: 4px solid var(--cobalt);
+      border-radius: 16px;
+      padding: 1.25rem 1.5rem;
+      margin-bottom: 1.75rem;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    .drive-banner h2 {
+      font-size: 1.15rem;
+      font-weight: 900;
+      letter-spacing: 0.5px;
+    }
+
+    .drive-banner p {
+      font-size: 0.86rem;
+      color: var(--stone-muted);
+      margin-top: 0.25rem;
+    }
+
+    .cobalt-chip {
+      padding: 0.45rem 0.95rem;
+      border-radius: 999px;
+      background: var(--cobalt);
+      color: var(--white);
+      font-size: 0.76rem;
+      font-weight: 800;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      box-shadow: 0 0 18px var(--cobalt-glow);
+    }
+
+    /* CARDS & GRIDS */
+    .split-2 {
+      display: grid;
+      grid-template-columns: 1fr 1.1fr;
+      gap: 1.5rem;
+      align-items: start;
+    }
+
+    @media (max-width: 980px) {
+      .split-2 { grid-template-columns: 1fr; }
+    }
+
+    .card {
+      background: var(--ink-elevated);
+      border: 1px solid var(--stone-grey);
+      border-radius: 20px;
+      padding: 1.65rem;
+      box-shadow: 0 18px 45px rgba(0, 0, 0, 0.55);
+    }
+
+    .card-head {
+      font-size: 0.9rem;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 1.3px;
+      margin-bottom: 1.25rem;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    .card-head::before {
+      content: '';
+      width: 4px;
+      height: 16px;
+      border-radius: 4px;
+      background: var(--cobalt);
+      box-shadow: 0 0 10px var(--cobalt);
+    }
+
+    .input-row-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.9rem;
+      margin-bottom: 1.1rem;
+    }
+
+    .field label {
+      display: block;
+      font-size: 0.72rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.9px;
+      color: var(--stone-muted);
+      margin-bottom: 0.4rem;
+    }
+
+    .field input,
+    .field select {
+      width: 100%;
+      padding: 0.85rem 0.95rem;
+      border-radius: 12px;
+      background: var(--ink-black);
+      border: 1px solid var(--stone-grey);
+      color: var(--white);
+      font-size: 0.95rem;
+      font-weight: 700;
+      outline: none;
+    }
+
+    .field input:focus,
+    .field select:focus {
+      border-color: var(--cobalt);
+      box-shadow: 0 0 14px rgba(30, 107, 255, 0.25);
+    }
+
+    .sub-label {
+      display: block;
+      font-size: 0.72rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.9px;
+      color: var(--stone-muted);
+      margin: 1.15rem 0 0.5rem;
+    }
+
+    .option-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.55rem;
+    }
+
+    .tile {
+      padding: 0.85rem 0.75rem;
+      border-radius: 12px;
+      background: var(--ink-black);
+      border: 1px solid var(--stone-grey);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      user-select: none;
+    }
+
+    .tile strong {
+      display: block;
+      font-size: 0.85rem;
+      color: var(--white);
+    }
+
+    .tile span {
+      display: block;
+      font-size: 0.72rem;
+      color: var(--stone-muted);
+      margin-top: 0.2rem;
+    }
+
+    .tile:hover {
+      border-color: var(--cobalt-bright);
+    }
+
+    .tile.selected {
+      background: var(--cobalt-tint);
+      border-color: var(--cobalt);
+      box-shadow: 0 0 18px rgba(30, 107, 255, 0.24);
+    }
+
+    .tile.selected span {
+      color: var(--cobalt-bright);
+    }
+
+    .gear-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 0.5rem;
+    }
+
+    .gear-pill {
+      padding: 0.7rem 0.8rem;
+      border-radius: 10px;
+      background: var(--ink-black);
+      border: 1px solid var(--stone-grey);
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--stone-muted);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .gear-pill input {
+      accent-color: var(--cobalt);
+    }
+
+    .gear-pill.checked {
+      border-color: var(--cobalt);
+      background: var(--cobalt-tint);
+      color: var(--white);
+    }
+
+    .btn-cobalt {
+      width: 100%;
+      padding: 1.05rem;
+      margin-top: 1.4rem;
+      border-radius: 13px;
+      border: none;
+      background: linear-gradient(135deg, var(--cobalt) 0%, #0D47D9 100%);
+      color: var(--white);
+      font-size: 0.96rem;
+      font-weight: 900;
+      letter-spacing: 1.4px;
+      text-transform: uppercase;
+      cursor: pointer;
+      box-shadow: 0 10px 28px var(--cobalt-glow);
+      transition: transform 0.2s;
+    }
+
+    .btn-cobalt:hover {
+      transform: translateY(-2px);
+    }
+
+    /* EXERCISE CARDS */
+    .ex-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+    }
+
+    .ex-item {
+      background: var(--ink-black);
+      border: 1px solid var(--stone-grey);
+      border-radius: 14px;
+      padding: 1.15rem;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .ex-item:hover,
+    .ex-item.active {
+      border-color: var(--cobalt);
+      background: linear-gradient(145deg, var(--ink-black) 0%, rgba(30, 107, 255, 0.1) 100%);
+    }
+
+    .ex-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 0.45rem;
+    }
+
+    .ex-header h4 {
+      font-size: 1rem;
+      font-weight: 800;
+    }
+
+    .muscle-tag {
+      font-size: 0.7rem;
+      font-weight: 800;
+      padding: 0.24rem 0.65rem;
+      border-radius: 999px;
+      background: var(--cobalt);
+      color: var(--white);
+      text-transform: uppercase;
+    }
+
+    .ex-metrics {
+      display: flex;
+      gap: 1.2rem;
+      font-size: 0.8rem;
+      color: var(--stone-muted);
+      margin-bottom: 0.6rem;
+    }
+
+    .ex-metrics strong {
+      color: var(--white);
+    }
+
+    .ex-cue {
+      font-size: 0.83rem;
+      color: #CBD5E1;
+      border-left: 3px solid var(--cobalt);
+      padding-left: 0.7rem;
+      line-height: 1.42;
+    }
+
+    /* ANATOMY STUDIO VIEW */
+    .anatomy-stage {
+      display: grid;
+      grid-template-columns: 1.15fr 1fr;
+      gap: 1.5rem;
+      align-items: center;
+    }
+
+    @media (max-width: 760px) {
+      .anatomy-stage { grid-template-columns: 1fr; }
+    }
+
+    .body-duo {
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      background: var(--ink-black);
+      border: 1px solid var(--stone-grey);
+      border-radius: 18px;
+      padding: 1.5rem 1rem;
+    }
+
+    .body-col {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.45rem;
+    }
+
+    .body-col span {
+      font-size: 0.7rem;
+      font-weight: 800;
+      letter-spacing: 1.2px;
+      color: var(--stone-muted);
+      text-transform: uppercase;
+    }
+
+    .anat-svg {
+      width: 145px;
+      height: 295px;
+      overflow: visible;
+    }
+
+    .m-base {
+      fill: #1C202B;
+      stroke: #32394A;
+      stroke-width: 1;
+      cursor: pointer;
+      transition: all 0.25s;
+    }
+
+    .m-base:hover {
+      fill: #2B3346;
+    }
+
+    .m-primary {
+      fill: var(--cobalt);
+      stroke: #9CC2FF;
+      stroke-width: 1;
+      filter: drop-shadow(0 0 10px var(--cobalt-glow));
+    }
+
+    .m-secondary {
+      fill: #475569;
+      stroke: #94A3B8;
+      stroke-width: 0.8;
+    }
+
+    .m-striation {
+      fill: none;
+      stroke: rgba(7, 8, 11, 0.55);
+      stroke-width: 0.9;
+    }
+
+    .muscle-filter-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin: 1rem 0;
+    }
+
+    .m-pill {
+      padding: 0.48rem 0.85rem;
+      border-radius: 8px;
+      background: var(--ink-black);
+      border: 1px solid var(--stone-grey);
+      color: var(--stone-muted);
+      font-size: 0.76rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      cursor: pointer;
+    }
+
+    .m-pill.active,
+    .m-pill:hover {
+      border-color: var(--cobalt);
+      background: var(--cobalt-tint);
+      color: var(--white);
+    }
+
+    /* FORGE AI VOICE & CAMERA VIEW */
+    .ai-studio {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 1.5rem;
+    }
+
+    @media (max-width: 820px) {
+      .ai-studio { grid-template-columns: 1fr; }
+    }
+
+    .orb-header {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1.15rem;
+    }
+
+    .cobalt-orb {
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 30% 30%, #9CC2FF 0%, var(--cobalt) 58%, #091E54 100%);
+      box-shadow: 0 0 24px var(--cobalt-glow);
+      flex-shrink: 0;
+    }
+
+    .cobalt-orb.listening {
+      animation: orbPulse 1s infinite ease-in-out;
+    }
+
+    .cobalt-orb.speaking {
+      animation: orbSpeak 0.4s infinite alternate ease-in-out;
+    }
+
+    @keyframes orbPulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.15); box-shadow: 0 0 38px rgba(30, 107, 255, 0.9); }
+    }
+
+    @keyframes orbSpeak {
+      0% { transform: scale(0.95); }
+      100% { transform: scale(1.12); filter: brightness(1.3); }
+    }
+
+    .btn-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+      margin-bottom: 1rem;
+    }
+
+    .btn-action {
+      padding: 0.72rem 1.1rem;
+      border-radius: 10px;
+      border: 1px solid var(--stone-grey);
+      background: var(--ink-black);
+      color: var(--white);
+      font-size: 0.82rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-action:hover,
+    .btn-action.active {
+      background: var(--cobalt);
+      border-color: var(--cobalt-bright);
+      box-shadow: 0 0 18px var(--cobalt-glow);
+    }
+
+    .chat-box {
+      display: flex;
+      gap: 0.6rem;
+      margin-bottom: 1rem;
+    }
+
+    .chat-box input {
+      flex: 1;
+      padding: 0.85rem 1rem;
+      border-radius: 12px;
+      background: var(--ink-black);
+      border: 1px solid var(--stone-grey);
+      color: var(--white);
+      font-size: 0.9rem;
+      outline: none;
+    }
+
+    .chat-box input:focus {
+      border-color: var(--cobalt);
+    }
+
+    .voice-log {
+      background: var(--ink-black);
+      border: 1px solid var(--stone-grey);
+      border-left: 4px solid var(--cobalt);
+      border-radius: 12px;
+      padding: 1rem;
+      font-size: 0.9rem;
+      line-height: 1.5;
+      color: #E2E8F0;
+    }
+
+    .cam-frame {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      background: #040507;
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid var(--cobalt);
+      margin-bottom: 1rem;
+    }
+
+    .cam-frame video,
+    .cam-frame canvas {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transform: scaleX(-1);
+    }
+
+    .cam-badge {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      z-index: 5;
+      background: rgba(7, 8, 11, 0.85);
+      border: 1px solid var(--cobalt);
+      color: var(--cobalt-bright);
+      font-size: 0.7rem;
+      font-weight: 800;
+      padding: 0.3rem 0.7rem;
+      border-radius: 6px;
+      letter-spacing: 0.8px;
+    }
+
+    .telemetry-list {
+      background: var(--ink-black);
+      border: 1px solid var(--stone-grey);
+      border-radius: 12px;
+      padding: 0.9rem 1rem;
+    }
+
+    .tel-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 0.45rem 0;
+      border-bottom: 1px solid var(--stone-dark);
+      font-size: 0.83rem;
+    }
+
+    .tel-row:last-child { border-bottom: none; }
+    .tel-row span:first-child { color: var(--stone-muted); }
+    .tel-row span:last-child { font-weight: 800; }
+
+    /* FUEL & MACROS VIEW */
+    .macro-cards {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    @media (max-width: 760px) {
+      .macro-cards { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    .macro-box {
+      background: var(--ink-black);
+      border: 1px solid var(--stone-grey);
+      border-radius: 16px;
+      padding: 1.25rem;
+      text-align: center;
+    }
+
+    .macro-box small {
+      display: block;
+      font-size: 0.72rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      color: var(--stone-muted);
+      margin-bottom: 0.4rem;
+    }
+
+    .macro-box strong {
+      font-size: 1.55rem;
+      font-weight: 900;
+      color: var(--cobalt-bright);
+    }
+  </style>
 </head>
 <body>
 
-    <!-- Color Atmosphere Switchers -->
-    <input type="radio" id="theme-inferno" name="theme" checked>
-    <input type="radio" id="theme-male" name="theme">
-    <input type="radio" id="theme-female" name="theme">
-    <input type="radio" id="theme-nb" name="theme">
+  <!-- MOBILE HEADER -->
+  <div class="mobile-bar">
+    <div style="display:flex; align-items:center; gap:0.7rem;">
+      <svg width="34" height="34" viewBox="0 0 64 64" fill="none">
+        <polygon points="32,3 58,18 58,46 32,61 6,46 6,18" fill="#07080B" stroke="#1E6BFF" stroke-width="4"/>
+        <path d="M22 22H44L40 29H29V34H38L35 40H29V48H22V22Z" fill="#F8FAFC"/>
+        <circle cx="44" cy="44" r="4" fill="#1E6BFF"/>
+      </svg>
+      <div class="wordmark" style="font-size:1.35rem;">FORG<span>E</span></div>
+    </div>
+    <span class="cobalt-chip">Active</span>
+  </div>
 
-    <div class="app-wrapper">
-        <header>
-            <!-- Custom SVG Anvil + Flame + Dumbbell Crest Logo -->
-            <div class="brand-logo-wrap">
-                <svg class="forge-emblem" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <defs>
-                        <linearGradient id="forgeGrad" x1="0" y1="0" x2="64" y2="64" gradientUnits="userSpaceOnUse">
-                            <stop offset="0%" stop-color="var(--primary)" />
-                            <stop offset="100%" stop-color="var(--secondary)" />
-                        </linearGradient>
-                    </defs>
-                    <!-- Hexagonal Shield -->
-                    <path d="M32 3L57 17.5V46.5L32 61L7 46.5V17.5L32 3Z" fill="#0d111a" stroke="url(#forgeGrad)" stroke-width="3"/>
-                    <!-- Forged Flame Core -->
-                    <path d="M32 12C32 12 42 21 42 29C42 34.5228 37.5228 39 32 39C26.4772 39 22 34.5228 22 29C22 25.5 24 22 26 20C26 23 28 24.5 29.5 24.5C28.5 20.5 32 12 32 12Z" fill="url(#forgeGrad)"/>
-                    <!-- Heavy Anvil / Barbell Base -->
-                    <rect x="16" y="42" width="32" height="5" rx="2.5" fill="url(#forgeGrad)"/>
-                    <rect x="12" y="39" width="4" height="11" rx="2" fill="#ffffff"/>
-                    <rect x="48" y="39" width="4" height="11" rx="2" fill="#ffffff"/>
-                </svg>
-                <h1>FORGE</h1>
-            </div>
-            <div class="motto-banner">No Excuses. Iron Sharpens Iron.</div>
-            <p class="subtitle">Every rep rewrites your DNA. Dial in your stats, pick your transformation mission, and build an unstoppable physique.</p>
-        </header>
+  <div class="mobile-tabs">
+    <button class="nav-btn active" data-tab="workout">Workout Builder</button>
+    <button class="nav-btn" data-tab="anatomy">Anatomy Map</button>
+    <button class="nav-btn" data-tab="coach">FORGE AI & Form Cam</button>
+    <button class="nav-btn" data-tab="nutrition">Fuel & Macros</button>
+  </div>
 
-        <form action="#blueprint">
-            <!-- Atmosphere & Biometrics -->
-            <div class="section-heading">
-                <span class="section-badge">I</span>
-                Athlete Profile & Energy Theme
-            </div>
+  <!-- DESKTOP SIDEBAR MENU -->
+  <aside class="sidebar">
+    <div>
+      <div class="logo-lockup">
+        <!-- Geometric Forge Monogram Crest -->
+        <svg class="forge-crest" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="cobaltCrest" x1="6" y1="3" x2="58" y2="61" gradientUnits="userSpaceOnUse">
+              <stop offset="0%" stop-color="#4D8EFF"/>
+              <stop offset="100%" stop-color="#1E6BFF"/>
+            </linearGradient>
+          </defs>
+          <polygon points="32,3 58,18 58,46 32,61 6,46 6,18" fill="#07080B" stroke="url(#cobaltCrest)" stroke-width="3.5"/>
+          <polygon points="32,9 52,21 52,43 32,55 12,43 12,21" fill="#161922"/>
+          <path d="M23 20H44L40.5 26.5H30V31.5H39L36 37.5H30V47H23V20Z" fill="#F8FAFC"/>
+          <polygon points="41,40 46,43 41,46" fill="#1E6BFF"/>
+        </svg>
+        <div class="wordmark">FORG<span>E</span></div>
+      </div>
 
-            <div class="input-group">
-                <label class="field-label">Choose Your Visual Energy</label>
-                <div class="pill-selector">
-                    <label for="theme-inferno">Inferno Forge<span class="sub-tag">Solar Orange & Gold</span></label>
-                    <label for="theme-male">Electric Titan<span class="sub-tag">Male / Cyan & Emerald</span></label>
-                    <label for="theme-female">Crimson Valkyrie<span class="sub-tag">Female / Magenta & Coral</span></label>
-                    <label for="theme-nb">Apex Nova<span class="sub-tag">Non-Binary / Violet & Teal</span></label>
-                </div>
-            </div>
-
-            <div class="grid-2">
-                <div class="input-group">
-                    <label class="field-label" for="age">Age (Years)</label>
-                    <input type="number" id="age" value="22" min="13" max="90" required>
-                </div>
-                <div class="input-group">
-                    <label class="field-label" for="weight">Current Weight (kg)</label>
-                    <input type="number" id="weight" value="75" min="30" max="250" required>
-                </div>
-            </div>
-
-            <div class="grid-2">
-                <div class="input-group">
-                    <label class="field-label" for="height">Height (cm)</label>
-                    <input type="number" id="height" value="178" min="100" max="230" required>
-                </div>
-                <div class="input-group">
-                    <label class="field-label" for="time">Available Time (Even 5 Mins Counts!)</label>
-                    <select id="time">
-                        <option value="5">5 Minutes — Micro-Burn / Wake-Up Blast</option>
-                        <option value="10">10 Minutes — Rapid HIIT & Pump</option>
-                        <option value="15">15 Minutes — Express Intensity</option>
-                        <option value="20">20 Minutes — High-Efficiency Superset</option>
-                        <option value="30">30 Minutes — Focused Power Session</option>
-                        <option value="45">45 Minutes — Classic Hypertrophy</option>
-                        <option value="60" selected>60 Minutes — Complete Physique Builder</option>
-                        <option value="90">90 Minutes — Full Athlete Grind</option>
-                    </select>
-                </div>
-            </div>
-
-            <!-- Transformation Motive / Goal -->
-            <div class="section-heading">
-                <span class="section-badge">II</span>
-                Your Transformation Motive
-            </div>
-            <div class="input-group">
-                <label class="field-label">Where Are You Starting & Where Are You Going?</label>
-                <div class="pill-selector">
-                    <input type="radio" id="goal-jacked" name="goal" checked>
-                    <label for="goal-jacked">Get Purely Jacked<span class="sub-tag">Max Muscle & Density</span></label>
-
-                    <input type="radio" id="goal-fat-to-jacked" name="goal">
-                    <label for="goal-fat-to-jacked">Fat to Jacked<span class="sub-tag">Body Recomp & Heavy Burn</span></label>
-
-                    <input type="radio" id="goal-thin-to-jacked" name="goal">
-                    <label for="goal-thin-to-jacked">Thin to Jacked<span class="sub-tag">Hardgainer Mass & Size</span></label>
-
-                    <input type="radio" id="goal-lose-fat" name="goal">
-                    <label for="goal-lose-fat">Shred & Lose Fat<span class="sub-tag">High-Tempo Caloric Torch</span></label>
-                </div>
-            </div>
-
-            <!-- Fighting & Training Style -->
-            <div class="section-heading">
-                <span class="section-badge">III</span>
-                Combat & Training Discipline
-            </div>
-            <div class="input-group">
-                <label class="field-label">Select Your Physique Style</label>
-                <div class="pill-selector">
-                    <input type="radio" id="disc-gym" name="discipline" checked>
-                    <label for="disc-gym">Gym Bodybuilding<span class="sub-tag">Aesthetic Proportions</span></label>
-
-                    <input type="radio" id="disc-calisthenics" name="discipline">
-                    <label for="disc-calisthenics">Calisthenics<span class="sub-tag">Relative Strength & Control</span></label>
-
-                    <input type="radio" id="disc-mma" name="discipline">
-                    <label for="disc-mma">MMA / UFC Fighter<span class="sub-tag">Explosive Power & Cardio</span></label>
-
-                    <input type="radio" id="disc-hybrid" name="discipline">
-                    <label for="disc-hybrid">Hybrid Athlete<span class="sub-tag">Strength + Speed + Size</span></label>
-                </div>
-            </div>
-
-            <!-- Expanded Equipment Arsenal -->
-            <div class="section-heading">
-                <span class="section-badge">IV</span>
-                Your Equipment Arsenal
-            </div>
-            <div class="checkbox-group">
-                <label class="checkbox-card"><input type="checkbox" checked> Bodyweight (Zero Gear)</label>
-                <label class="checkbox-card"><input type="checkbox" checked> Dumbbells</label>
-                <label class="checkbox-card"><input type="checkbox" checked> Pull-Up Bar</label>
-                <label class="checkbox-card"><input type="checkbox" checked> Barbell & Plates</label>
-                <label class="checkbox-card"><input type="checkbox"> Kettlebells</label>
-                <label class="checkbox-card"><input type="checkbox"> Resistance Bands</label>
-                <label class="checkbox-card"><input type="checkbox"> Adjustable Bench</label>
-                <label class="checkbox-card"><input type="checkbox"> Dip Station / Parallettes</label>
-                <label class="checkbox-card"><input type="checkbox"> Cable Machine / Pulleys</label>
-                <label class="checkbox-card"><input type="checkbox"> Heavy Punching Bag</label>
-                <label class="checkbox-card"><input type="checkbox"> Jump Rope</label>
-                <label class="checkbox-card"><input type="checkbox"> Full Commercial Gym</label>
-            </div>
-
-            <button type="submit" class="btn-generate">Lock In & Forge My Routine</button>
-        </form>
-
-        <!-- OUTPUT BLUEPRINT -->
-        <div id="blueprint" class="output-container">
-            <div class="motivation-callout">
-                <h3>Your Daily Battle Cry</h3>
-                <p>You don't need hours—you need 100% effort in the minutes you have. Whether you're stripping off fat, filling out a thin frame, or sharpening fighter conditioning, consistency beats intensity every single time. Step up and earn your physique today.</p>
-            </div>
-
-            <div class="section-heading" style="margin-top:0;">
-                <span class="section-badge">V</span>
-                Fuel & Biometric Targets
-            </div>
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <h4>Daily Calorie Target</h4>
-                    <div class="value">2,780 kcal</div>
-                </div>
-                <div class="stat-card">
-                    <h4>Muscle-Building Protein</h4>
-                    <div class="value">168g / day</div>
-                </div>
-                <div class="stat-card">
-                    <h4>Training Focus</h4>
-                    <div class="value">Hypertrophy + Burn</div>
-                </div>
-            </div>
-
-            <!-- Detailed Anatomical Muscle Illustration -->
-            <div class="section-heading">
-                <span class="section-badge">VI</span>
-                Anatomical Muscle Activation Map
-            </div>
-            <div class="anatomy-panel">
-                <div class="anatomy-figure-box">
-                    <!-- Detailed Front Anatomical Muscle SVG -->
-                    <svg class="anatomy-svg" viewBox="0 0 160 320" xmlns="http://www.w3.org/2000/svg">
-                        <!-- Head & Neck -->
-                        <path class="muscle-base" d="M80 12 C69 12 64 21 65 32 C66 41 72 47 80 47 C88 47 94 41 95 32 C96 21 91 12 80 12 Z"/>
-                        <!-- Traps -->
-                        <path class="muscle-secondary" d="M67 46 L48 56 L62 60 L72 50 Z"/>
-                        <path class="muscle-secondary" d="M93 46 L112 56 L98 60 L88 50 Z"/>
-                        <!-- Deltoids (Shoulders - Secondary) -->
-                        <path class="muscle-secondary" d="M48 56 C37 59 33 70 36 83 L47 80 L52 62 Z"/>
-                        <path class="muscle-secondary" d="M112 56 C123 59 127 70 124 83 L113 80 L108 62 Z"/>
-                        <!-- Pectorals (Chest - Primary Target) -->
-                        <path class="muscle-primary" d="M53 60 L78 62 L78 88 C66 90 54 85 50 75 Z"/>
-                        <path class="muscle-primary" d="M107 60 L82 62 L82 88 C94 90 106 85 110 75 Z"/>
-                        <!-- Chest Muscle Fiber Striations -->
-                        <path class="muscle-striation" d="M55 68 L75 70 M54 75 L75 76 M56 81 L75 82"/>
-                        <path class="muscle-striation" d="M105 68 L85 70 M106 75 L85 76 M104 81 L85 82"/>
-                        <!-- Biceps (Primary Target) -->
-                        <path class="muscle-primary" d="M36 84 C32 95 33 108 38 116 L46 113 C48 102 47 90 46 82 Z"/>
-                        <path class="muscle-primary" d="M124 84 C128 95 127 108 122 116 L114 113 C112 102 113 90 114 82 Z"/>
-                        <!-- Forearms -->
-                        <path class="muscle-base" d="M36 117 L27 148 L34 151 L45 116 Z"/>
-                        <path class="muscle-base" d="M124 117 L133 148 L126 151 L115 116 Z"/>
-                        <!-- Rectus Abdominis (6-Pack Core - Secondary) -->
-                        <rect class="muscle-secondary" x="67" y="91" width="11" height="12" rx="3"/>
-                        <rect class="muscle-secondary" x="82" y="91" width="11" height="12" rx="3"/>
-                        <rect class="muscle-secondary" x="67" y="106" width="11" height="12" rx="3"/>
-                        <rect class="muscle-secondary" x="82" y="106" width="11" height="12" rx="3"/>
-                        <rect class="muscle-secondary" x="68" y="121" width="10" height="13" rx="3"/>
-                        <rect class="muscle-secondary" x="82" y="121" width="10" height="13" rx="3"/>
-                        <!-- Obliques -->
-                        <path class="muscle-base" d="M53 84 L64 92 L64 134 L55 126 Z"/>
-                        <path class="muscle-base" d="M107 84 L96 92 L96 134 L105 126 Z"/>
-                        <!-- Quadriceps (Thighs - Primary Target) -->
-                        <path class="muscle-primary" d="M55 142 L76 146 L73 212 L57 210 C51 188 51 162 55 142 Z"/>
-                        <path class="muscle-primary" d="M105 142 L84 146 L87 212 L103 210 C109 188 109 162 105 142 Z"/>
-                        <!-- Quad Muscle Separation Lines -->
-                        <path class="muscle-striation" d="M64 152 L63 202 M70 154 L69 205"/>
-                        <path class="muscle-striation" d="M96 152 L97 202 M90 154 L91 205"/>
-                        <!-- Calves / Lower Legs -->
-                        <path class="muscle-base" d="M58 218 L72 218 L69 282 L60 282 Z"/>
-                        <path class="muscle-base" d="M102 218 L88 218 L91 282 L100 282 Z"/>
-                    </svg>
-                </div>
-
-                <div class="anatomy-legend">
-                    <h3>Full-Body Hypertrophy & Power Breakdown</h3>
-                    <p>Every movement in your session is mapped to trigger maximum mechanical tension across major muscle bellies while recruiting stabilizer groups to accelerate fat oxidation and lean mass growth.</p>
-                    <div class="legend-tags">
-                        <div class="legend-badge"><span class="dot-primary"></span> Primary Movers: Pectorals, Biceps, Quadriceps</div>
-                        <div class="legend-badge"><span class="dot-secondary"></span> Secondary Synergists: Deltoids, Traps, Core</div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Routine Breakdown -->
-            <div class="section-heading">
-                <span class="section-badge">VII</span>
-                Your Prescribed Action Plan
-            </div>
-
-            <div class="routine-card">
-                <h3>Incline Press / Explosive Push-Ups <span>Upper Chest & Front Delts</span></h3>
-                <div class="routine-details">
-                    <div>Sets: <strong>4</strong></div>
-                    <div>Reps: <strong>8 - 12</strong></div>
-                    <div>Rest: <strong>60 - 90s</strong></div>
-                </div>
-                <div class="cue">Keep shoulder blades pinned down and back, lower with a controlled 2-second tempo, and drive upward with explosive intent.</div>
-            </div>
-
-            <div class="routine-card">
-                <h3>Pull-Ups / Dumbbell Rows <span>Lats, Traps & Biceps</span></h3>
-                <div class="routine-details">
-                    <div>Sets: <strong>4</strong></div>
-                    <div>Reps: <strong>8 - 12</strong></div>
-                    <div>Rest: <strong>60 - 90s</strong></div>
-                </div>
-                <div class="cue">Lead with your elbows—not your hands—and squeeze your mid-back hard at peak contraction for V-taper width.</div>
-            </div>
-
-            <div class="routine-card">
-                <h3>Bulgarian Split Squats / Goblet Squats <span>Quads, Glutes & Core</span></h3>
-                <div class="routine-details">
-                    <div>Sets: <strong>3</strong></div>
-                    <div>Reps: <strong>10 - 15</strong></div>
-                    <div>Rest: <strong>75s</strong></div>
-                </div>
-                <div class="cue">Brace your abs like you're taking a body shot, sink deep until thighs break parallel, and drive through your mid-foot.</div>
-            </div>
-
-            <div class="routine-card">
-                <h3>Supinated Bicep Curls + Finisher Burpees <span>Arms & Metabolic Burn</span></h3>
-                <div class="routine-details">
-                    <div>Sets: <strong>3</strong></div>
-                    <div>Reps: <strong>12 Curls + 30s Sprint</strong></div>
-                    <div>Rest: <strong>45s</strong></div>
-                </div>
-                <div class="cue">Lock elbows at your ribs during curls with zero swinging, then transition straight into high-tempo conditioning to torch stubborn fat.</div>
-            </div>
-        </div>
+      <nav class="nav-menu">
+        <button class="nav-btn active" data-tab="workout">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2.2"><path d="M6.5 6.5h11M6.5 17.5h11M4 9v6M20 9v6M9 4v16M15 4v16"/></svg>
+          Workout Builder
+        </button>
+        <button class="nav-btn" data-tab="anatomy">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2.2"><circle cx="12" cy="5" r="2.5"/><path d="M7 10h10l-1.5 6H8.5L7 10zM9.5 16v5M14.5 16v5"/></svg>
+          Muscle Anatomy
+        </button>
+        <button class="nav-btn" data-tab="coach">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2.2"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2M12 19v3"/></svg>
+          FORGE AI & Form Cam
+        </button>
+        <button class="nav-btn" data-tab="nutrition">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2.2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+          Fuel & Macros
+        </button>
+      </nav>
     </div>
 
+    <div class="sidebar-footer">
+      <p>Zero Excuses Mode</p>
+      <span>Every minute counts. Lock in your session and execute.</span>
+    </div>
+  </aside>
+
+  <!-- MAIN CONTENT STAGE -->
+  <main class="main-stage">
+    <div class="drive-banner">
+      <div>
+        <h2 id="bannerHeadline">Your Physique Is Forged Under Pressure</h2>
+        <p id="bannerSub">Dial in your biometrics, select your transformation goal, and attack your custom training split.</p>
+      </div>
+      <span class="cobalt-chip" id="activeGoalBadge">Purely Jacked</span>
+    </div>
+
+    <!-- =====================================
+         MENU 1: WORKOUT BUILDER
+         ===================================== -->
+    <section id="tab-workout" class="tab-view active">
+      <div class="split-2">
+        <form class="card" id="routineForm">
+          <div class="card-head">Biometrics & Session Time</div>
+
+          <div class="input-row-2">
+            <div class="field">
+              <label for="age">Age (Years)</label>
+              <input type="number" id="age" value="22" min="13" max="90" required />
+            </div>
+            <div class="field">
+              <label for="weight">Weight (kg)</label>
+              <input type="number" id="weight" value="76" min="30" max="250" required />
+            </div>
+            <div class="field">
+              <label for="height">Height (cm)</label>
+              <input type="number" id="height" value="178" min="100" max="230" required />
+            </div>
+            <div class="field">
+              <label for="time">Available Time</label>
+              <select id="time">
+                <option value="5">5 Mins — Micro-Burn</option>
+                <option value="10">10 Mins — Rapid HIIT</option>
+                <option value="15">15 Mins — Express Pump</option>
+                <option value="20">20 Mins — Superset Blast</option>
+                <option value="30">30 Mins — Power Session</option>
+                <option value="45">45 Mins — Hypertrophy</option>
+                <option value="60" selected>60 Mins — Complete Build</option>
+                <option value="90">90 Mins — Full Grind</option>
+              </select>
+            </div>
+          </div>
+
+          <span class="sub-label">Transformation Motive</span>
+          <div class="option-grid" id="goalGrid">
+            <div class="tile selected" data-goal="jacked">
+              <strong>Get Purely Jacked</strong>
+              <span>Max Muscle & Density</span>
+            </div>
+            <div class="tile" data-goal="fat_to_jacked">
+              <strong>Fat to Jacked</strong>
+              <span>Recomp & Heavy Burn</span>
+            </div>
+            <div class="tile" data-goal="thin_to_jacked">
+              <strong>Thin to Jacked</strong>
+              <span>Hardgainer Mass</span>
+            </div>
+            <div class="tile" data-goal="lose_fat">
+              <strong>Shred & Lose Fat</strong>
+              <span>Caloric Torch</span>
+            </div>
+          </div>
+
+          <span class="sub-label">Training Discipline</span>
+          <div class="option-grid" id="discGrid">
+            <div class="tile selected" data-discipline="gym">
+              <strong>Gym Bodybuilding</strong>
+              <span>Aesthetic Proportions</span>
+            </div>
+            <div class="tile" data-discipline="calisthenics">
+              <strong>Calisthenics</strong>
+              <span>Bodyweight Mastery</span>
+            </div>
+            <div class="tile" data-discipline="mma">
+              <strong>MMA / UFC Fighter</strong>
+              <span>Explosive Conditioning</span>
+            </div>
+            <div class="tile" data-discipline="hybrid">
+              <strong>Hybrid Athlete</strong>
+              <span>Power + Speed + Size</span>
+            </div>
+          </div>
+
+          <span class="sub-label">Equipment Arsenal</span>
+          <div class="gear-grid" id="gearGrid">
+            <label class="gear-pill checked"><input type="checkbox" value="bodyweight" checked /> Bodyweight</label>
+            <label class="gear-pill checked"><input type="checkbox" value="dumbbells" checked /> Dumbbells</label>
+            <label class="gear-pill checked"><input type="checkbox" value="pullup_bar" checked /> Pull-Up Bar</label>
+            <label class="gear-pill checked"><input type="checkbox" value="barbell" checked /> Barbell & Plates</label>
+            <label class="gear-pill"><input type="checkbox" value="kettlebells" /> Kettlebells</label>
+            <label class="gear-pill"><input type="checkbox" value="bands" /> Resistance Bands</label>
+            <label class="gear-pill"><input type="checkbox" value="bench" /> Adjustable Bench</label>
+            <label class="gear-pill"><input type="checkbox" value="punching_bag" /> Punching Bag</label>
+            <label class="gear-pill"><input type="checkbox" value="jump_rope" /> Jump Rope</label>
+            <label class="gear-pill"><input type="checkbox" value="full_gym" /> Full Commercial Gym</label>
+          </div>
+
+          <button type="submit" class="btn-cobalt">Generate Custom Routine</button>
+        </form>
+
+        <div class="card">
+          <div class="card-head">Prescribed Action Plan</div>
+          <div class="ex-stack" id="exerciseList"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =====================================
+         MENU 2: MUSCLE ANATOMY MAP
+         ===================================== -->
+    <section id="tab-anatomy" class="tab-view">
+      <div class="card">
+        <div class="card-head">Interactive Human Anatomy Visualizer</div>
+        <div class="anatomy-stage">
+          <div class="body-duo">
+            <!-- ANTERIOR -->
+            <div class="body-col">
+              <span>Anterior (Front)</span>
+              <svg class="anat-svg" viewBox="0 0 160 300">
+                <path class="m-base" d="M80 12 C69 12 64 21 65 32 C66 41 72 47 80 47 C88 47 94 41 95 32 C96 21 91 12 80 12 Z"/>
+                <path data-muscle="shoulders" class="m-secondary" d="M48 56 C37 59 33 70 36 83 L47 80 L52 62 Z"/>
+                <path data-muscle="shoulders" class="m-secondary" d="M112 56 C123 59 127 70 124 83 L113 80 L108 62 Z"/>
+                <path data-muscle="chest" class="m-primary" d="M53 60 L78 62 L78 88 C66 90 54 85 50 75 Z"/>
+                <path data-muscle="chest" class="m-primary" d="M107 60 L82 62 L82 88 C94 90 106 85 110 75 Z"/>
+                <path class="m-striation" d="M55 68 L75 70 M54 75 L75 76 M105 68 L85 70 M106 75 L85 76"/>
+                <path data-muscle="biceps" class="m-base" d="M36 84 C32 95 33 108 38 116 L46 113 C48 102 47 90 46 82 Z"/>
+                <path data-muscle="biceps" class="m-base" d="M124 84 C128 95 127 108 122 116 L114 113 C112 102 113 90 114 82 Z"/>
+                <path class="m-base" d="M36 117 L27 148 L34 151 L45 116 Z"/>
+                <path class="m-base" d="M124 117 L133 148 L126 151 L115 116 Z"/>
+                <rect data-muscle="core" class="m-base" x="67" y="91" width="11" height="12" rx="3"/>
+                <rect data-muscle="core" class="m-base" x="82" y="91" width="11" height="12" rx="3"/>
+                <rect data-muscle="core" class="m-base" x="67" y="106" width="11" height="12" rx="3"/>
+                <rect data-muscle="core" class="m-base" x="82" y="106" width="11" height="12" rx="3"/>
+                <rect data-muscle="core" class="m-base" x="68" y="121" width="10" height="13" rx="3"/>
+                <rect data-muscle="core" class="m-base" x="82" y="121" width="10" height="13" rx="3"/>
+                <path data-muscle="quads" class="m-base" d="M55 142 L76 146 L73 212 L57 210 C51 188 51 162 55 142 Z"/>
+                <path data-muscle="quads" class="m-base" d="M105 142 L84 146 L87 212 L103 210 C109 188 109 162 105 142 Z"/>
+                <path class="m-base" d="M58 218 L72 218 L69 282 L60 282 Z"/>
+                <path class="m-base" d="M102 218 L88 218 L91 282 L100 282 Z"/>
+              </svg>
+            </div>
+
+            <!-- POSTERIOR -->
+            <div class="body-col">
+              <span>Posterior (Back)</span>
+              <svg class="anat-svg" viewBox="0 0 160 300">
+                <path class="m-base" d="M80 12 C69 12 64 21 65 32 C66 41 72 47 80 47 C88 47 94 41 95 32 C96 21 91 12 80 12 Z"/>
+                <path data-muscle="back" class="m-base" d="M68 46 L92 46 L108 62 L80 86 L52 62 Z"/>
+                <path data-muscle="shoulders" class="m-secondary" d="M48 56 C37 59 33 70 36 83 L47 80 L52 62 Z"/>
+                <path data-muscle="shoulders" class="m-secondary" d="M112 56 C123 59 127 70 124 83 L113 80 L108 62 Z"/>
+                <path data-muscle="back" class="m-base" d="M52 66 L78 88 L76 124 L56 112 Z"/>
+                <path data-muscle="back" class="m-base" d="M108 66 L82 88 L84 124 L104 112 Z"/>
+                <path data-muscle="triceps" class="m-secondary" d="M36 84 C32 95 33 108 38 116 L46 113 C48 102 47 90 46 82 Z"/>
+                <path data-muscle="triceps" class="m-secondary" d="M124 84 C128 95 127 108 122 116 L114 113 C112 102 113 90 114 82 Z"/>
+                <path data-muscle="hamstrings" class="m-base" d="M56 126 L79 126 L78 156 L54 150 Z"/>
+                <path data-muscle="hamstrings" class="m-base" d="M104 126 L81 126 L82 156 L106 150 Z"/>
+                <path data-muscle="hamstrings" class="m-base" d="M55 158 L77 158 L74 212 L58 210 Z"/>
+                <path data-muscle="hamstrings" class="m-base" d="M105 158 L83 158 L86 212 L102 210 Z"/>
+                <path class="m-base" d="M58 218 L72 218 L69 282 L60 282 Z"/>
+                <path class="m-base" d="M102 218 L88 218 L91 282 L100 282 Z"/>
+              </svg>
+            </div>
+          </div>
+
+          <div>
+            <h3 id="anatTitle" style="font-size:1.3rem; font-weight:900; margin-bottom:0.5rem;">Barbell Bench Press</h3>
+            <p id="anatDesc" style="font-size:0.9rem; color:var(--stone-muted); line-height:1.55;">
+              Tap any muscle group button below or click an exercise in the Workout Builder to highlight primary and secondary muscle engagement.
+            </p>
+            <div class="muscle-filter-pills" id="musclePills">
+              <button class="m-pill active" data-target="chest">Chest</button>
+              <button class="m-pill" data-target="back">Back / Lats</button>
+              <button class="m-pill" data-target="shoulders">Shoulders</button>
+              <button class="m-pill" data-target="biceps">Biceps</button>
+              <button class="m-pill" data-target="triceps">Triceps</button>
+              <button class="m-pill" data-target="core">Core / Abs</button>
+              <button class="m-pill" data-target="quads">Quads</button>
+              <button class="m-pill" data-target="hamstrings">Glutes / Hams</button>
+            </div>
+            <div style="display:flex; gap:1rem; font-size:0.8rem; font-weight:700; margin-top:0.5rem;">
+              <span style="color:var(--cobalt-bright);">&#9679; Electric Cobalt = Primary Target</span>
+              <span style="color:#94A3B8;">&#9679; Stone Slate = Secondary Synergist</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =====================================
+         MENU 3: FORGE AI VOICE & LIVE FORM CAM
+         ===================================== -->
+    <section id="tab-coach" class="tab-view">
+      <div class="ai-studio">
+        <div class="card">
+          <div class="card-head">FORGE Voice Assistant</div>
+          <div class="orb-header">
+            <div id="cobaltOrb" class="cobalt-orb"></div>
+            <div>
+              <h3 style="font-size:1.1rem; font-weight:900;">FORGE AI <span class="cobalt-chip" id="aiBadge" style="margin-left:0.5rem;">Standby</span></h3>
+              <p id="aiHint" style="font-size:0.84rem; color:var(--stone-muted); margin-top:0.2rem;">
+                Say <strong>"Hey Forge"</strong> or type any question about form, macros, or motivation.
+              </p>
+            </div>
+          </div>
+
+          <div class="btn-row">
+            <button type="button" class="btn-action" id="btnTalk">🎙️ Talk to Forge</button>
+            <button type="button" class="btn-action" id="btnWake">👂 "Hey Forge" Wake Mode</button>
+            <button type="button" class="btn-action" id="btnMotivate">⚡ Push Me Now</button>
+          </div>
+
+          <div class="chat-box">
+            <input type="text" id="aiInput" placeholder="Ask Forge: 'How do I fix my squat?' or 'Check my form'..." />
+            <button type="button" class="btn-action active" id="btnSend">Ask</button>
+          </div>
+
+          <div class="voice-log" id="voiceLog">
+            <strong>FORGE:</strong> Online and ready. Ask me for exercise form cues, daily protein targets, or launch the Live Form Camera on the right.
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-head">Live Camera Form Correction</div>
+          <div class="cam-frame">
+            <span class="cam-badge" id="camBadge">VISION // OFF</span>
+            <video id="camVideo" autoplay playsinline muted></video>
+            <canvas id="camCanvas"></canvas>
+          </div>
+          <div class="btn-row">
+            <button type="button" class="btn-action active" id="btnToggleCam" style="flex:1;">📷 Start Live Form Camera</button>
+            <button type="button" class="btn-action" id="btnSpeakVerdict">🔊 Speak Feedback</button>
+          </div>
+          <div class="telemetry-list">
+            <div class="tel-row"><span>Shoulder Symmetry</span><span id="telShoulder">--</span></div>
+            <div class="tel-row"><span>Torso Alignment</span><span id="telSpine">--</span></div>
+            <div class="tel-row"><span>Repetition Tempo</span><span id="telTempo">--</span></div>
+            <div class="tel-row"><span>Coach Verdict</span><span id="telVerdict" style="color:var(--cobalt-bright);">Awaiting Camera</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =====================================
+         MENU 4: FUEL & MACROS
+         ===================================== -->
+    <section id="tab-nutrition" class="tab-view">
+      <div class="card">
+        <div class="card-head">Biometric Nutrition Blueprint</div>
+        <div class="macro-cards">
+          <div class="macro-box"><small>Daily Calories</small><strong id="macCalories">2,810 kcal</strong></div>
+          <div class="macro-box"><small>Protein Target</small><strong id="macProtein">160g</strong></div>
+          <div class="macro-box"><small>Carbohydrates</small><strong id="macCarbs">330g</strong></div>
+          <div class="macro-box"><small>Healthy Fats</small><strong id="macFats">78g</strong></div>
+        </div>
+        <p id="nutritionNotes" style="font-size:0.9rem; color:var(--stone-muted); line-height:1.6;">
+          Calculated using the Mifflin-St Jeor metabolic equation calibrated to your age, weight, height, and transformation goal. Hit your protein target across 4–5 meals to maximize muscle protein synthesis.
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const state = {
+      goal: 'jacked',
+      discipline: 'gym',
+      equipment: ['bodyweight', 'dumbbells', 'pullup_bar', 'barbell'],
+      wakeActive: false,
+      camActive: false,
+      selectedExercise: null
+    };
+
+    const EXERCISES = [
+      {
+        name: "Barbell Bench Press", discipline: "gym", req: "barbell",
+        primary: "chest", secondary: "triceps", tag: "Chest / Triceps",
+        sets: 4, reps: "6 - 10", rest: "120s",
+        cue: "Retract scapulae into the bench, lower bar to mid-sternum with control, and press explosively.",
+        desc: "Builds dense mid-chest thickness while loading anterior deltoids and triceps."
+      },
+      {
+        name: "Incline Dumbbell Press", discipline: "gym", req: "dumbbells",
+        primary: "chest", secondary: "shoulders", tag: "Upper Chest",
+        sets: 4, reps: "8 - 12", rest: "90s",
+        cue: "Set bench to 30 degrees. Keep elbows tucked at 45 degrees for upper pec recruitment.",
+        desc: "Targets the upper clavicular chest shelf and front deltoids."
+      },
+      {
+        name: "Supinated Dumbbell Curls", discipline: "gym", req: "dumbbells",
+        primary: "biceps", secondary: "back", tag: "Biceps Peak",
+        sets: 3, reps: "10 - 15", rest: "60s",
+        cue: "Pin elbows strictly to ribs, rotate pinky upward at peak, lower on a 3-second negative.",
+        desc: "Isolates the biceps brachii long and short heads with zero torso swing."
+      },
+      {
+        name: "Barbell Back Squat", discipline: "gym", req: "barbell",
+        primary: "quads", secondary: "hamstrings", tag: "Quads / Glutes",
+        sets: 4, reps: "6 - 10", rest: "150s",
+        cue: "Brace core tight, break at hips and knees together, sink below parallel, drive through mid-foot.",
+        desc: "Triggers systemic growth response and builds quad sweep."
+      },
+      {
+        name: "Explosive Pull-Ups", discipline: "calisthenics", req: "pullup_bar",
+        primary: "back", secondary: "biceps", tag: "Lats / Biceps",
+        sets: 4, reps: "6 - 12", rest: "90s",
+        cue: "Depress shoulders away from ears, drive elbows down to hips, pull chest to bar.",
+        desc: "Widens the latissimus dorsi for V-taper back width."
+      },
+      {
+        name: "Decline / Pseudo-Planche Push-Ups", discipline: "calisthenics", req: "bodyweight",
+        primary: "chest", secondary: "shoulders", tag: "Chest / Delts",
+        sets: 4, reps: "10 - 15", rest: "75s",
+        cue: "Lean shoulders forward past wrists, lock core rigid, protract shoulder blades at top.",
+        desc: "Overloads chest and front deltoids using bodyweight leverage."
+      },
+      {
+        name: "Hanging Leg Raises / Hollow Hold", discipline: "calisthenics", req: "bodyweight",
+        primary: "core", secondary: "back", tag: "Core / Abs",
+        sets: 3, reps: "12 - 15", rest: "60s",
+        cue: "Posteriorly tilt pelvis and curl hips upward without swinging.",
+        desc: "Carves deep rectus abdominis definition and core stability."
+      },
+      {
+        name: "Sprawl-to-Shadowbox Burpees", discipline: "mma", req: "bodyweight",
+        primary: "core", secondary: "shoulders", tag: "MMA Conditioning",
+        sets: 5, reps: "45s ON / 15s OFF", rest: "45s",
+        cue: "Snap hips fast to mat on sprawl, pop into high guard, fire a sharp 1-2-3-2 combo.",
+        desc: "Builds fight-ending anaerobic stamina and takedown defense speed."
+      },
+      {
+        name: "Bulgarian Split Squat Jumps", discipline: "mma", req: "bodyweight",
+        primary: "quads", secondary: "hamstrings", tag: "Explosive Legs",
+        sets: 4, reps: "8 / leg", rest: "75s",
+        cue: "Drop rear knee softly, explode vertically off front leg for knockout hip drive.",
+        desc: "Develops unilateral leg power for takedowns and explosive footwork."
+      },
+      {
+        name: "Deadlift / Dumbbell RDL", discipline: "hybrid", req: "barbell",
+        primary: "back", secondary: "hamstrings", tag: "Posterior Chain",
+        sets: 4, reps: "5 - 8", rest: "150s",
+        cue: "Pull slack out of bar, wedge hips in, brace lats tight, drive floor away.",
+        desc: "Builds total-body posterior density from traps down through hamstrings."
+      }
+    ];
+
+    // NAVIGATION MENU SWITCHING
+    function switchTab(tabId) {
+      document.querySelectorAll('.nav-btn').forEach(b => {
+        b.classList.toggle('active', b.dataset.tab === tabId);
+      });
+      document.querySelectorAll('.tab-view').forEach(v => {
+        v.classList.toggle('active', v.id === `tab-${tabId}`);
+      });
+    }
+
+    document.querySelectorAll('.nav-btn').forEach(btn => {
+      btn.addEventListener('click', () => switchTab(btn.dataset.tab));
+    });
+
+    // TILE & GEAR SELECTORS
+    function bindGrid(id, key) {
+      const el = document.getElementById(id);
+      el.querySelectorAll('.tile').forEach(tile => {
+        tile.addEventListener('click', () => {
+          el.querySelectorAll('.tile').forEach(t => t.classList.remove('selected'));
+          tile.classList.add('selected');
+          state[key] = tile.dataset[key];
+          if (key === 'goal') {
+            document.getElementById('activeGoalBadge').textContent = tile.querySelector('strong').textContent;
+          }
+        });
+      });
+    }
+    bindGrid('goalGrid', 'goal');
+    bindGrid('discGrid', 'discipline');
+
+    document.querySelectorAll('#gearGrid .gear-pill').forEach(pill => {
+      const cb = pill.querySelector('input');
+      pill.addEventListener('click', e => {
+        if (e.target !== cb) cb.checked = !cb.checked;
+        pill.classList.toggle('checked', cb.checked);
+        state.equipment = Array.from(document.querySelectorAll('#gearGrid input:checked')).map(i => i.value);
+      });
+    });
+
+    // ANATOMY HIGHLIGHTER
+    function highlightMuscles(primary, secondary, title, desc) {
+      if (title) document.getElementById('anatTitle').textContent = title;
+      if (desc) document.getElementById('anatDesc').textContent = desc;
+
+      document.querySelectorAll('[data-muscle]').forEach(svgPart => {
+        svgPart.classList.remove('m-primary', 'm-secondary');
+        svgPart.classList.add('m-base');
+        const m = svgPart.getAttribute('data-muscle');
+        if (m === primary) {
+          svgPart.classList.remove('m-base');
+          svgPart.classList.add('m-primary');
+        } else if (m === secondary) {
+          svgPart.classList.remove('m-base');
+          svgPart.classList.add('m-secondary');
+        }
+      });
+
+      document.querySelectorAll('.m-pill').forEach(p => {
+        p.classList.toggle('active', p.dataset.target === primary);
+      });
+    }
+
+    document.querySelectorAll('.m-pill').forEach(pill => {
+      pill.addEventListener('click', () => {
+        const target = pill.dataset.target;
+        highlightMuscles(target, '', `${target.toUpperCase()} Activation`, `Highlighting primary muscle fibers for ${target.toUpperCase()}.`);
+      });
+    });
+
+    // ROUTINE & NUTRITION ENGINE
+    function generateRoutine(announce = false) {
+      const age = parseInt(document.getElementById('age').value) || 22;
+      const weight = parseFloat(document.getElementById('weight').value) || 76;
+      const height = parseFloat(document.getElementById('height').value) || 178;
+      const mins = parseInt(document.getElementById('time').value) || 60;
+
+      const bmr = (10 * weight) + (6.25 * height) - (5 * age) + 5;
+      let calories = bmr * 1.55;
+      let proteinMult = 2.1;
+
+      if (state.goal === 'fat_to_jacked') { calories -= 250; proteinMult = 2.2; }
+      else if (state.goal === 'thin_to_jacked') { calories += 450; proteinMult = 2.1; }
+      else if (state.goal === 'lose_fat') { calories -= 500; proteinMult = 2.2; }
+      else { calories += 250; }
+
+      const protein = Math.round(weight * proteinMult);
+      const fats = Math.round((calories * 0.25) / 9);
+      const carbs = Math.round((calories - (protein * 4) - (fats * 9)) / 4);
+
+      document.getElementById('macCalories').textContent = `${Math.round(calories).toLocaleString()} kcal`;
+      document.getElementById('macProtein').textContent = `${protein}g`;
+      document.getElementById('macCarbs').textContent = `${carbs}g`;
+      document.getElementById('macFats').textContent = `${fats}g`;
+
+      const fullGym = state.equipment.includes('full_gym');
+      const primaryPool = EXERCISES.filter(ex => (fullGym || ex.req === 'bodyweight' || state.equipment.includes(ex.req)) && ex.discipline === state.discipline);
+      const secondaryPool = EXERCISES.filter(ex => (fullGym || ex.req === 'bodyweight' || state.equipment.includes(ex.req)) && ex.discipline !== state.discipline);
+
+      const count = mins <= 10 ? 2 : (mins <= 20 ? 3 : (mins <= 45 ? 4 : 5));
+      const routine = [...primaryPool, ...secondaryPool].slice(0, count);
+
+      const list = document.getElementById('exerciseList');
+      list.innerHTML = '';
+
+      routine.forEach((ex, i) => {
+        const sets = mins <= 10 ? 2 : (mins <= 20 ? 3 : ex.sets);
+        const item = document.createElement('div');
+        item.className = 'ex-item' + (i === 0 ? ' active' : '');
+        item.innerHTML = `
+          <div class="ex-header">
+            <h4>${ex.name}</h4>
+            <span class="muscle-tag">${ex.tag}</span>
+          </div>
+          <div class="ex-metrics">
+            <div>Sets: <strong>${sets}</strong></div>
+            <div>Reps: <strong>${ex.reps}</strong></div>
+            <div>Rest: <strong>${mins <= 15 ? '30s' : ex.rest}</strong></div>
+          </div>
+          <div class="ex-cue">${ex.cue}</div>
+        `;
+        item.addEventListener('click', () => {
+          document.querySelectorAll('.ex-item').forEach(c => c.classList.remove('active'));
+          item.classList.add('active');
+          state.selectedExercise = ex;
+          highlightMuscles(ex.primary, ex.secondary, ex.name, ex.desc);
+        });
+        list.appendChild(item);
+      });
+
+      if (routine.length) {
+        state.selectedExercise = routine[0];
+        highlightMuscles(routine[0].primary, routine[0].secondary, routine[0].name, routine[0].desc);
+      }
+
+      if (announce) {
+        forgeSpeak(`Routine generated for ${mins} minutes. Target ${Math.round(calories)} calories and ${protein} grams of protein. Starting with ${routine[0].name}.`);
+      }
+    }
+
+    document.getElementById('routineForm').addEventListener('submit', e => {
+      e.preventDefault();
+      generateRoutine(true);
+    });
+
+    // FORGE AI VOICE COACH
+    const orb = document.getElementById('cobaltOrb');
+    const aiBadge = document.getElementById('aiBadge');
+    const voiceLog = document.getElementById('voiceLog');
+
+    function forgeSpeak(text) {
+      voiceLog.innerHTML = `<strong>FORGE:</strong> ${text}`;
+      if ('speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+        const u = new SpeechSynthesisUtterance(text);
+        u.rate = 1.03;
+        u.pitch = 0.92;
+        u.onstart = () => { orb.classList.add('speaking'); aiBadge.textContent = 'Speaking'; };
+        u.onend = () => { orb.classList.remove('speaking'); aiBadge.textContent = state.wakeActive ? 'Wake Active' : 'Standby'; };
+        window.speechSynthesis.speak(u);
+      }
+    }
+
+    function handleCommand(raw) {
+      const q = raw.toLowerCase().trim();
+      if (!q) return;
+
+      if (q.includes('camera') || q.includes('form') || q.includes('watch')) {
+        switchTab('coach');
+        if (!state.camActive) toggleCamera();
+        forgeSpeak("Live form camera activated. Stand centered so I can track your shoulder symmetry.");
+        return;
+      }
+      if (q.includes('motivat') || q.includes('push') || q.includes('tired')) {
+        forgeSpeak("Nobody builds an elite physique inside their comfort zone. Lock in your grip, control your breathing, and dominate this set!");
+        return;
+      }
+      if (q.includes('protein') || q.includes('calorie') || q.includes('macro')) {
+        forgeSpeak(`Your daily target is ${document.getElementById('macCalories').textContent} with ${document.getElementById('macProtein').textContent} of protein.`);
+        return;
+      }
+      const ex = state.selectedExercise;
+      forgeSpeak(ex ? `For ${ex.name}: ${ex.cue}` : "Keep your spine neutral, control the negative, and explode through every rep.");
+    }
+
+    document.getElementById('btnSend').addEventListener('click', () => {
+      const inp = document.getElementById('aiInput');
+      handleCommand(inp.value);
+      inp.value = '';
+    });
+
+    document.getElementById('aiInput').addEventListener('keydown', e => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        handleCommand(e.target.value);
+        e.target.value = '';
+      }
+    });
+
+    document.getElementById('btnMotivate').addEventListener('click', () => handleCommand('motivate me'));
+
+    const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
+    let rec = null;
+    if (SpeechRec) {
+      rec = new SpeechRec();
+      rec.lang = 'en-US';
+      rec.onstart = () => { orb.classList.add('listening'); aiBadge.textContent = 'Listening'; };
+      rec.onresult = e => {
+        const text = e.results[e.results.length - 1][0].transcript;
+        document.getElementById('aiHint').innerHTML = `Heard: <em>"${text}"</em>`;
+        if (state.wakeActive) {
+          if (text.toLowerCase().includes('forge')) {
+            handleCommand(text.toLowerCase().replace(/hey forge|forge/g, '').trim() || 'motivate me');
+          }
+        } else {
+          handleCommand(text);
+        }
+      };
+      rec.onend = () => {
+        orb.classList.remove('listening');
+        if (state.wakeActive) { try { rec.start(); } catch (_) {} }
+        else aiBadge.textContent = 'Standby';
+      };
+    }
+
+    document.getElementById('btnTalk').addEventListener('click', () => {
+      if (!rec) return forgeSpeak("Type your question in the input box above and I will speak my response.");
+      state.wakeActive = false;
+      document.getElementById('btnWake').classList.remove('active');
+      try { rec.start(); } catch (_) {}
+    });
+
+    document.getElementById('btnWake').addEventListener('click', function() {
+      if (!rec) return forgeSpeak("Speech recognition requires Chrome or Edge.");
+      state.wakeActive = !state.wakeActive;
+      this.classList.toggle('active', state.wakeActive);
+      if (state.wakeActive) {
+        forgeSpeak("Wake word armed. Say Hey Forge anytime.");
+        try { rec.start(); } catch (_) {}
+      } else {
+        rec.stop();
+        aiBadge.textContent = 'Standby';
+      }
+    });
+
+    // LIVE CAMERA POSTURE & FORM SCANNER
+    const videoEl = document.getElementById('camVideo');
+    const canvasEl = document.getElementById('camCanvas');
+    const ctx = canvasEl.getContext('2d');
+    let stream = null, rafId = null, prevFrame = null, lastAlert = 0;
+
+    async function toggleCamera() {
+      const btn = document.getElementById('btnToggleCam');
+      if (state.camActive) {
+        state.camActive = false;
+        btn.textContent = '📷 Start Live Form Camera';
+        document.getElementById('camBadge').textContent = 'VISION // OFF';
+        if (rafId) cancelAnimationFrame(rafId);
+        if (stream) { stream.getTracks().forEach(t => t.stop()); stream = null; }
+        return;
+      }
+      try {
+        stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'user' }, audio: false });
+        videoEl.srcObject = stream;
+        state.camActive = true;
+        btn.textContent = '⏹️ Stop Form Camera';
+        document.getElementById('camBadge').textContent = 'COBALT VISION // LIVE';
+        runVision();
+      } catch {
+        forgeSpeak("Camera access denied. Enable camera permissions in your browser settings.");
+      }
+    }
+
+    document.getElementById('btnToggleCam').addEventListener('click', toggleCamera);
+    document.getElementById('btnSpeakVerdict').addEventListener('click', () => {
+      forgeSpeak(document.getElementById('telVerdict').textContent);
+    });
+
+    function runVision() {
+      const off = document.createElement('canvas');
+      const oCtx = off.getContext('2d', { willReadFrequently: true });
+      off.width = 80; off.height = 60;
+
+      function tick() {
+        if (!state.camActive) return;
+        if (videoEl.readyState >= 2) {
+          canvasEl.width = videoEl.videoWidth || 640;
+          canvasEl.height = videoEl.videoHeight || 480;
+          oCtx.drawImage(videoEl, 0, 0, 80, 60);
+          const data = oCtx.getImageData(0, 0, 80, 60).data;
+
+          let lY = 0, lC = 0, rY = 0, rC = 0, cX = 0, motion = 0;
+          if (prevFrame) {
+            for (let y = 5; y < 50; y++) {
+              for (let x = 10; x < 70; x++) {
+                const i = (y * 80 + x) * 4;
+                const d = Math.abs(data[i] - prevFrame[i]) + Math.abs(data[i+1] - prevFrame[i+1]) + Math.abs(data[i+2] - prevFrame[i+2]);
+                if (d > 45) {
+                  motion += d; cX += x;
+                  if (x < 40) { lY += y; lC++; } else { rY += y; rC++; }
+                }
+              }
+            }
+          }
+          prevFrame = new Uint8ClampedArray(data);
+
+          const w = canvasEl.width, h = canvasEl.height;
+          ctx.clearRect(0, 0, w, h);
+
+          ctx.strokeStyle = 'rgba(30, 107, 255, 0.75)';
+          ctx.setLineDash([6, 6]);
+          ctx.lineWidth = 2;
+          ctx.beginPath(); ctx.moveTo(w / 2, 16); ctx.lineTo(w / 2, h - 16); ctx.stroke();
+          ctx.beginPath(); ctx.moveTo(w * 0.18, h * 0.34); ctx.lineTo(w * 0.82, h * 0.34); ctx.stroke();
+          ctx.setLineDash([]);
+
+          const tSh = document.getElementById('telShoulder');
+          const tSp = document.getElementById('telSpine');
+          const tTm = document.getElementById('telTempo');
+          const tVd = document.getElementById('telVerdict');
+
+          if (lC > 12 && rC > 12) {
+            const leftAvg = lY / lC, rightAvg = rY / rC;
+            const tilt = Math.abs(leftAvg - rightAvg);
+            const drift = Math.abs((cX / (lC + rC)) - 40);
+
+            const color = tilt > 4.5 ? '#F59E0B' : '#1E6BFF';
+            ctx.fillStyle = color;
+            ctx.beginPath();
+            ctx.arc(w * 0.35, (leftAvg / 60) * h, 8, 0, Math.PI * 2);
+            ctx.arc(w * 0.65, (rightAvg / 60) * h, 8, 0, Math.PI * 2);
+            ctx.fill();
+
+            ctx.strokeStyle = color; ctx.lineWidth = 3;
+            ctx.beginPath();
+            ctx.moveTo(w * 0.35, (leftAvg / 60) * h);
+            ctx.lineTo(w * 0.65, (rightAvg / 60) * h);
+            ctx.stroke();
+
+            if (tilt > 4.5) {
+              tSh.textContent = "UNEVEN TILT"; tSh.style.color = "#F59E0B";
+              tVd.textContent = "Level your shoulders evenly";
+              if (Date.now() - lastAlert > 8000) { lastAlert = Date.now(); forgeSpeak("Level your shoulders during the rep."); }
+            } else if (drift > 11) {
+              tSp.textContent = "LATERAL DRIFT"; tSp.style.color = "#F59E0B";
+              tVd.textContent = "Center torso over your feet";
+            } else {
+              tSh.textContent = "LEVEL & LOCKED"; tSh.style.color = "#10B981";
+              tSp.textContent = "NEUTRAL SPINE"; tSp.style.color = "#10B981";
+              tVd.textContent = "Form Locked — Drive hard";
+            }
+            tTm.textContent = motion > 45000 ? "EXPLOSIVE" : "CONTROLLED";
+          } else {
+            tSh.textContent = "SCANNING..."; tSh.style.color = "#8C95A6";
+            tSp.textContent = "CENTER BODY"; tSp.style.color = "#8C95A6";
+            tTm.textContent = "AWAITING REP";
+          }
+        }
+        rafId = requestAnimationFrame(tick);
+      }
+      rafId = requestAnimationFrame(tick);
+    }
+
+    generateRoutine(false);
+  </script>
 </body>
 </html>
+ document.querySelectorAll('[data-muscle]').forEach(el => {
+                el.classList.remove('muscle-primary', 'muscle-secondary');
+                el.classList.add('muscle-base');
+                const m = el.getAttribute('data-muscle');
+                if (m === exercise.primary) {
+                    el.classList.remove('muscle-base');
+                    el.classList.add('muscle-primary');
+                } else if (m === exercise.secondary) {
+                    el.classList.remove('muscle-base');
+                    el.classList.add('muscle-secondary');
+                }
+            });
+        }
+
+        function generatePlan(speakOut = false) {
+            const age = parseInt(document.getElementById('age').value) || 22;
+            const weight = parseFloat(document.getElementById('weight').value) || 75;
+            const height = parseFloat(document.getElementById('height').value) || 178;
+            const minutes = parseInt(document.getElementById('time').value) || 60;
+
+            // BMR & Calorie Calculation
+            const genderOffset = state.theme === 'female' ? -161 : (state.theme === 'nb' ? -78 : 5);
+            const bmr = (10 * weight) + (6.25 * height) - (5 * age) + genderOffset;
+            let tdee = bmr * 1.55;
+            let proteinMult = 2.0;
+            let focusLabel = "Hypertrophy";
+            let battleCry = "Every rep you complete today separates who you were from who you're becoming. Keep your form sharp and push past comfort.";
+
+            if (state.goal === 'fat_to_jacked') {
+                tdee -= 250;
+                proteinMult = 2.2;
+                focusLabel = "Body Recomp";
+                battleCry = "Fat-to-Jacked Protocol Locked: High protein preserves and builds dense muscle while your metabolic tempo torches stored body fat.";
+            } else if (state.goal === 'thin_to_jacked') {
+                tdee += 450;
+                proteinMult = 2.1;
+                focusLabel = "Mass Surplus";
+                battleCry = "Thin-to-Jacked Protocol Locked: Heavy mechanical tension plus a surplus of clean calories will pack serious size onto your frame.";
+            } else if (state.goal === 'lose_fat') {
+                tdee -= 500;
+                proteinMult = 2.2;
+                focusLabel = "Fat Shred";
+                battleCry = "Shred Protocol Locked: Short rest periods, explosive movement, and high protein to strip fat fast without sacrificing strength.";
+            } else {
+                tdee += 250;
+                proteinMult = 2.1;
+                focusLabel = "Pure Hypertrophy";
+            }
+
+            document.getElementById('statCalories').textContent = `${Math.round(tdee).toLocaleString()} kcal`;
+            document.getElementById('statProtein').textContent = `${Math.round(weight * proteinMult)}g / day`;
+            document.getElementById('statFocus').textContent = focusLabel;
+            document.getElementById('battleCryText').textContent = battleCry;
+
+            // Filter Exercises by Equipment & Discipline
+            const hasFullGym = state.equipment.includes('full_gym');
+            let matched = EXERCISES.filter(ex => {
+                const eqOk = hasFullGym || ex.req === 'bodyweight' || state.equipment.includes(ex.req);
+                return eqOk && ex.discipline === state.discipline;
+            });
+
+            // Fill with compatible cross-discipline exercises if needed
+            const extras = EXERCISES.filter(ex => {
+                const eqOk = hasFullGym || ex.req === 'bodyweight' || state.equipment.includes(ex.req);
+                return eqOk && ex.discipline !== state.discipline;
+            });
+
+            let pool = [...matched, ...extras];
+            let count = 4;
+            if (minutes <= 10) count = 2;
+            else if (minutes <= 20) count = 3;
+            else if (minutes <= 45) count = 4;
+            else if (minutes <= 60) count = 5;
+            else count = 6;
+
+            const routine = pool.slice(0, count);
+            const listEl = document.getElementById('routineList');
+            listEl.innerHTML = '';
+
+            routine.forEach((ex, idx) => {
+                const setsAdjusted = minutes <= 10 ? 2 : (minutes <= 20 ? 3 : ex.sets);
+                const card = document.createElement('div');
+                card.className = 'routine-card' + (idx === 0 ? ' active-card' : '');
+                card.innerHTML = `
+                    <h3>${ex.name} <span>${ex.tag}</span></h3>
+                    <div class="routine-details">
+                        <div>Sets: <strong>${setsAdjusted}</strong></div>
+                        <div>Reps: <strong>${ex.reps}</strong></div>
+                        <div>Rest: <strong>${minutes <= 15 ? '30s' : ex.rest}</strong></div>
+                    </div>
+                    <div class="cue">${ex.cue}</div>
+                `;
+                card.addEventListener('click', () => {
+                    document.querySelectorAll('.routine-card').forEach(c => c.classList.remove('active-card'));
+                    card.classList.add('active-card');
+                    highlightAnatomy(ex);
+                });
+                listEl.appendChild(card);
+            });
+
+            if (routine.length > 0) highlightAnatomy(routine[0]);
+
+            if (speakOut) {
+                forgeSpeak(`Plan updated for ${minutes} minutes. Your target is ${Math.round(tdee)} calories and ${Math.round(weight * proteinMult)} grams of protein. Starting with ${routine[0].name}. Let's get to work.`);
+            }
+        }
+
+        document.getElementById('forgeForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            generatePlan(true);
+            document.getElementById('blueprint').scrollIntoView({ behavior: 'smooth' });
+        });
+
+        // ==========================================
+        // 3. FORGE AI VOICE ASSISTANT (ALEXA-STYLE)
+        // ==========================================
+        const forgeOrb = document.getElementById('forgeOrb');
+        const aiStateBadge = document.getElementById('aiStateBadge');
+        const aiSubStatus = document.getElementById('aiSubStatus');
+        const aiResponseBox = document.getElementById('aiResponseBox');
+
+        function forgeSpeak(text) {
+            aiResponseBox.innerHTML = `<strong>FORGE:</strong> ${text}`;
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel();
+                const utter = new SpeechSynthesisUtterance(text);
+                utter.rate = 1.03;
+                utter.pitch = 0.92;
+                utter.onstart = () => {
+                    forgeOrb.classList.add('speaking');
+                    aiStateBadge.textContent = 'Speaking';
+                };
+                utter.onend = () => {
+                    forgeOrb.classList.remove('speaking');
+                    aiStateBadge.textContent = state.wakeModeActive ? 'Listening ("Hey Forge")' : 'Standby';
+                };
+                window.speechSynthesis.speak(utter);
+            }
+        }
+
+        function processForgeQuery(rawQuery) {
+            const q = rawQuery.toLowerCase().trim();
+            if (!q) return;
+
+            if (q.includes('camera') || q.includes('form') || q.includes('watch me') || q.includes('check my posture')) {
+                if (!state.cameraActive) toggleCameraCoach();
+                forgeSpeak("Opening live form vision now. Step back so your shoulders and torso are centered in frame, and I will analyze your posture.");
+                return;
+            }
+            if (q.includes('stop camera') || q.includes('close camera')) {
+                if (state.cameraActive) toggleCameraCoach();
+                forgeSpeak("Live form camera closed.");
+                return;
+            }
+            if (q.includes('squat')) {
+                forgeSpeak("For squats: keep your chest proud, brace your core tight before descending, push your knees out over your toes, and drive straight up through your mid-foot.");
+                return;
+            }
+            if (q.includes('push') || q.includes('bench')) {
+                forgeSpeak("For pressing movements: retract your shoulder blades down and back, keep elbows tucked at 45 degrees rather than flared out, and control the descent.");
+                return;
+            }
+            if (q.includes('curl') || q.includes('bicep')) {
+                forgeSpeak("For bicep curls: lock your elbows tightly to your ribs, avoid swinging your lower back, and squeeze at the top for a full second.");
+                return;
+            }
+            if (q.includes('motivat') || q.includes('tired') || q.includes('lazy') || q.includes('push me')) {
+                forgeSpeak("Nobody is coming to lift the weight for you! Five minutes of relentless effort beats zero. Lock in, breathe deep, and execute your next set right now!");
+                return;
+            }
+            if (q.includes('calorie') || q.includes('protein') || q.includes('diet') || q.includes('eat')) {
+                const cals = document.getElementById('statCalories').textContent;
+                const prot = document.getElementById('statProtein').textContent;
+                forgeSpeak(`Based on your stats, hit ${cals} daily with at least ${prot} of lean protein to fuel recovery and growth.`);
+                return;
+            }
+            if (q.includes('generate') || q.includes('new workout') || q.includes('routine')) {
+                generatePlan(true);
+                return;
+            }
+
+            // Default intelligent coaching reply
+            const exName = state.currentExercise ? state.currentExercise.name : "your current movement";
+            forgeSpeak(`I heard "${rawQuery}". Stay locked in on ${exName}: ${state.currentExercise ? state.currentExercise.cue : 'maintain strict posture, controlled tempo, and full range of motion.'}`);
+        }
+
+        document.getElementById('btnAskText').addEventListener('click', () => {
+            const input = document.getElementById('aiTextInput');
+            processForgeQuery(input.value);
+            input.value = '';
+        });
+
+        document.getElementById('aiTextInput').addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                processForgeQuery(e.target.value);
+                e.target.value = '';
+            }
+        });
+
+        // Web Speech Recognition (One-Shot & "Hey Forge" Wake Mode)
+        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        let recognition = null;
+
+        if (SpeechRecognition) {
+            recognition = new SpeechRecognition();
+            recognition.lang = 'en-US';
+            recognition.interimResults = false;
+
+            recognition.onstart = () => {
+                forgeOrb.classList.add('listening');
+                aiStateBadge.textContent = state.wakeModeActive ? 'Wake Word Active' : 'Listening...';
+            };
+
+            recognition.onresult = (event) => {
+                const transcript = event.results[event.results.length - 1][0].transcript;
+                aiSubStatus.innerHTML = `Heard: <em>"${transcript}"</em>`;
+
+                if (state.wakeModeActive) {
+                    const lower = transcript.toLowerCase();
+                    if (lower.includes('forge')) {
+                        const cleaned = lower.replace(/hey forge|ok forge|forge/g, '').trim();
+                        if (cleaned.length > 1) {
+                            processForgeQuery(cleaned);
+                        } else {
+                            forgeSpeak("I'm listening. What do you need?");
+                        }
+                    }
+                } else {
+                    processForgeQuery(transcript);
+                }
+            };
+
+            recognition.onerror = () => {
+                forgeOrb.classList.remove('listening');
+                if (!state.wakeModeActive) aiStateBadge.textContent = 'Standby';
+            };
+
+            recognition.onend = () => {
+                forgeOrb.classList.remove('listening');
+                if (state.wakeModeActive) {
+                    try { recognition.start(); } catch (e) {}
+                } else {
+                    aiStateBadge.textContent = 'Standby';
+                }
+            };
+        }
+
+        document.getElementById('btnVoiceListen').addEventListener('click', () => {
+            if (!recognition) {
+                forgeSpeak("Voice recognition is not supported in this browser. Type your question in the bar above and I will speak my answer!");
+                return;
+            }
+            state.wakeModeActive = false;
+            document.getElementById('btnWakeWord').classList.remove('active');
+            try { recognition.start(); } catch (e) {}
+        });
+
+        document.getElementById('btnWakeWord').addEventListener('click', function() {
+            if (!recognition) {
+                forgeSpeak("Speech recognition requires Chrome, Edge, or Safari. Use the text box above to command Forge.");
+                return;
+            }
+            state.wakeModeActive = !state.wakeModeActive;
+            this.classList.toggle('active', state.wakeModeActive);
+            if (state.wakeModeActive) {
+                forgeSpeak("Wake word activated. Say Hey Forge anytime during your set.");
+                try { recognition.start(); } catch (e) {}
+            } else {
+                recognition.stop();
+                aiStateBadge.textContent = 'Standby';
+            }
+        });
+
+        // ==========================================
+        // 4. LIVE CAMERA POSTURE & FORM ANALYZER
+        // ==========================================
+        const cameraDrawer = document.getElementById('cameraDrawer');
+        const videoEl = document.getElementById('webcamVideo');
+        const canvasEl = document.getElementById('poseCanvas');
+        const ctx = canvasEl.getContext('2d');
+        let mediaStream = null;
+        let visionLoopId = null;
+        let prevFrameData = null;
+        let lastSpokenWarning = 0;
+
+        async function toggleCameraCoach() {
+            const btn = document.getElementById('btnCameraForm');
+            if (state.cameraActive) {
+                state.cameraActive = false;
+                btn.classList.remove('active');
+                cameraDrawer.classList.remove('open');
+                if (visionLoopId) cancelAnimationFrame(visionLoopId);
+                if (mediaStream) {
+                    mediaStream.getTracks().forEach(t => t.stop());
+                    mediaStream = null;
+                }
+                return;
+            }
+
+            try {
+                mediaStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'user' }, audio: false });
+                videoEl.srcObject = mediaStream;
+                state.cameraActive = true;
+                btn.classList.add('active');
+                cameraDrawer.classList.add('open');
+                document.getElementById('camHudTag').textContent = 'AI VISION // TRACKING ACTIVE';
+                runFormVisionLoop();
+            } catch (err) {
+                forgeSpeak("Camera permission was blocked or unavailable. Please allow camera access in your browser settings so I can analyze your form.");
+            }
+        }
+
+        document.getElementById('btnCameraForm').addEventListener('click', toggleCameraCoach);
+
+        document.getElementById('btnSpeakForm').addEventListener('click', () => {
+            const verdict = document.getElementById('formVerdictBox').textContent;
+            forgeSpeak(verdict);
+        });
+
+        function runFormVisionLoop() {
+            const offCanvas = document.createElement('canvas');
+            const offCtx = offCanvas.getContext('2d', { willReadFrequently: true });
+            offCanvas.width = 80;
+            offCanvas.height = 60;
+
+            function analyzeFrame() {
+                if (!state.cameraActive) return;
+
+                if (videoEl.readyState >= 2) {
+                    canvasEl.width = videoEl.videoWidth || 640;
+                    canvasEl.height = videoEl.videoHeight || 480;
+
+                    offCtx.drawImage(videoEl, 0, 0, 80, 60);
+                    const frame = offCtx.getImageData(0, 0, 80, 60).data;
+
+                    // Compute left vs right upper-body balance & motion symmetry
+                    let leftMassY = 0, leftCount = 0;
+                    let rightMassY = 0, rightCount = 0;
+                    let centerXSum = 0, totalMotion = 0;
+
+                    if (prevFrameData) {
+                        for (let y = 5; y < 50; y++) {
+                            for (let x = 10; x < 70; x++) {
+                                const i = (y * 80 + x) * 4;
+                                const diff = Math.abs(frame[i] - prevFrameData[i]) +
+                                             Math.abs(frame[i+1] - prevFrameData[i+1]) +
+                                             Math.abs(frame[i+2] - prevFrameData[i+2]);
+                                if (diff > 45) {
+                                    totalMotion += diff;
+                                    centerXSum += x;
+                                    if (x < 40) { leftMassY += y; leftCount++; }
+                                    else { rightMassY += y; rightCount++; }
+                                }
+                            }
+                        }
+                    }
+                    prevFrameData = new Uint8ClampedArray(frame);
+
+                    // Draw Tactical AI Biomechanical Overlay Grid & Alignment Guides
+                    ctx.clearRect(0, 0, canvasEl.width, canvasEl.height);
+                    const w = canvasEl.width;
+                    const h = canvasEl.height;
+
+                    // Center Spine Plumb Line
+                    ctx.strokeStyle = 'rgba(0, 242, 254, 0.55)';
+                    ctx.setLineDash([6, 6]);
+                    ctx.lineWidth = 2;
+                    ctx.beginPath();
+                    ctx.moveTo(w / 2, 20);
+                    ctx.lineTo(w / 2, h - 20);
+                    ctx.stroke();
+
+                    // Shoulder Level Horizontal Guide
+                    ctx.strokeStyle = 'rgba(255, 144, 104, 0.65)';
+                    ctx.beginPath();
+                    ctx.moveTo(w * 0.2, h * 0.34);
+                    ctx.lineTo(w * 0.8, h * 0.34);
+                    ctx.stroke();
+                    ctx.setLineDash([]);
+
+                    // Evaluate Alignment & Tempo
+                    const telShoulder = document.getElementById('telShoulder');
+                    const telSpine = document.getElementById('telSpine');
+                    const telTempo = document.getElementById('telTempo');
+                    const verdictBox = document.getElementById('formVerdictBox');
+
+                    if (leftCount > 12 && rightCount > 12) {
+                        const leftAvgY = leftMassY / leftCount;
+                        const rightAvgY = rightMassY / rightCount;
+                        const tiltDiff = Math.abs(leftAvgY - rightAvgY);
+                        const avgX = centerXSum / (leftCount + rightCount);
+                        const offCenter = Math.abs(avgX - 40);
+
+                        // Draw dynamic shoulder tracking nodes
+                        ctx.fillStyle = tiltDiff > 4.5 ? '#ff3b30' : '#38ef7d';
+                        ctx.beginPath();
+                        ctx.arc(w * 0.35, (leftAvgY / 60) * h, 8, 0, Math.PI * 2);
+                        ctx.arc(w * 0.65, (rightAvgY / 60) * h, 8, 0, Math.PI * 2);
+                        ctx.fill();
+
+                        ctx.strokeStyle = tiltDiff > 4.5 ? '#ff3b30' : '#38ef7d';
+                        ctx.lineWidth = 3;
+                        ctx.beginPath();
+                        ctx.moveTo(w * 0.35, (leftAvgY / 60) * h);
+                        ctx.lineTo(w * 0.65, (rightAvgY / 60) * h);
+                        ctx.stroke();
+
+                        if (tiltDiff > 4.5) {
+                            telShoulder.textContent = "UNEVEN TILT DETECTED";
+                            telShoulder.style.color = "#ff512f";
+                            verdictBox.textContent = "Correction: One shoulder is dipping higher than the other. Level your collarbones and brace your core evenly.";
+                            if (Date.now() - lastSpokenWarning > 8000) {
+                                lastSpokenWarning = Date.now();
+                                forgeSpeak("Level your shoulders. One side is dipping during the rep.");
+                            }
+                        } else if (offCenter > 11) {
+                            telSpine.textContent = "DRIFTING OFF-CENTER";
+                            telSpine.style.color = "#ff9068";
+                            verdictBox.textContent = "Correction: Your torso is shifting laterally. Keep your weight balanced evenly across both feet.";
+                        } else {
+                            telShoulder.textContent = "LEVEL & LOCKED (98%)";
+                            telShoulder.style.color = "#38ef7d";
+                            telSpine.textContent = "NEUTRAL & UPRIGHT";
+                            telSpine.style.color = "#38ef7d";
+                            verdictBox.textContent = "Form Locked In: Shoulders are level and torso alignment is centered. Keep driving with controlled tempo!";
+                        }
+
+                        telTempo.textContent = totalMotion > 45000 ? "FAST / EXPLOSIVE" : "CONTROLLED TEMPO";
+                    } else {
+                        telShoulder.textContent = "SCANNING FRAME...";
+                        telShoulder.style.color = "#94a3b8";
+                        telSpine.textContent = "CENTER BODY IN VIEW";
+                        telSpine.style.color = "#94a3b8";
+                        telTempo.textContent = "AWAITING REP";
+                    }
+                }
+                visionLoopId = requestAnimationFrame(analyzeFrame);
+            }
+            visionLoopId = requestAnimationFrame(analyzeFrame);
+        }
+
+        // Initialize default routine on load
+        generatePlan(false);
+    </script>
+</body>
+</html>
+    
